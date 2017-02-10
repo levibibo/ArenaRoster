@@ -1,16 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "Patrons";
+    ViewData["Title"] = "Teams";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model List<Bar.Models.Patron>
+@model List<ArenaRoster.Models.Team>
 
-<h1>List of Patrons</h1>
+<h1>List of Teams</h1>
 <hr />
-@foreach(Bar.Models.Patron patron in Model)
+@foreach(Bar.Models.Team team in Model)
 {
     <div class="card">
         <div class="card-content">
-            <h4><a href="/Patrons/Details/@patron.PatronId">@patron.Name</a></h4>
+            <h4><a href="/Teams/Details/@team.TeamId">@team.Name</a></h4>
         </div>
     </div>
 }

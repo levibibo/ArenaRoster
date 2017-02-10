@@ -1,4 +1,4 @@
-﻿@model Bar.Models.Patron
+﻿@model ArenaRoster.Models.Team
 @{
     ViewData["Title"] = "@Model.Name";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,22 +6,19 @@
 
 <h1>@Model.Name</h1>
 <hr />
-<h4>Purchase Beer:</h4>
+<h4>Add Player:</h4>
 @using (Html.BeginForm())
 {
-    <label for="BeerId">Beer: </label>
-    <select class="browser-default" name="selectedBeer" asp-items="@ViewBag.Beers"></select>
+    <label for="UserId">User: </label>
+    <select class="browser-default" name="selectedUser" asp-items="@ViewBag.Users"></select>
 
-    <input class="btn" type="submit" value="Purchase Beer" />
+    <input class="btn" type="submit" value="Add User" />
 }
 
-<h4>@Model.Name's Tab</h4>
+<h4>@Model.Name's Roster</h4>
 @{
-    int priceCounter = 0;
-    @foreach(Bar.Models.BeerPatron beerPatron in Model.BeerPatrons)
+    @foreach(ArenaRoster.Models.UserTeam beerTeam in Model.UserTeams)
     {
-        priceCounter += beerPatron.Beer.Price;
-        <p>@beerPatron.Beer.Name<span>: $</span>@beerPatron.Beer.Price</p>
+        <p>@beerTeam.User.Name</p>
     }
-    <h4>Total Bar Tab: $@priceCounter</h4>
 }

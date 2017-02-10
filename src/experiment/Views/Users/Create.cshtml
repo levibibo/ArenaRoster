@@ -1,24 +1,24 @@
 ﻿@{
-    ViewData["Title"] = "Beers";
+    ViewData["Title"] = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model Bar.Models.Beer
+@model ArenaRoster.Models.User
 
-<h1>Add a beer to the database</h1>
-<form method="post" asp-action="Create" asp-controller="Beers" enctype="multipart/form-data">
-    <label for="name">Beer Name</label>
+<h1>Add a user to the database:</h1>
+<form method="post" asp-action="Create" asp-controller="Users" enctype="multipart/form-data">
+    <label for="name">User Name</label>
     <input type="text" id="name" name="name" />
     <br />
-    <label for="type">Beer Type</label>
-    <input type="text" id="type" name="type" />
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email" />
     <br />
-    <label for="price">Beer Price</label>
-    <input type="number" id="price" name="price" min="0"/>
+    <label for="phone">Phone (optional)</label>
+    <input type="text" id="phone" name="phone"/>
     <br />
-    <label for="picture">Beer Picture</label>
+    <label for="picture">User Picture (optional)</label>
     <input type="file" id="picture" name="picture" />
     <br />
-    <input class="btn" type="submit" value="Add Beer" />
+    <input class="btn" type="submit" value="Add User" />
 
 </form>
 }

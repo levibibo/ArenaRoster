@@ -1,18 +1,24 @@
 ﻿@{
-    ViewData["Title"] = "Beers";
+    ViewData["Title"] = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model List<Bar.Models.Beer>
+@model List<ArenaRoster.Models.User>
 
-<h1>List of Beers</h1>
+<h1>List of Users</h1>
 <hr />
-@foreach (Bar.Models.Beer beer in Model)
+@foreach (ArenaRoster.Models.User user in Model)
 {
-    <a href="/Beers/Details/@beer.BeerId">
+    <a href="/Users/Details/@user.UserId">
         <div class="card">
             <div class="card-content">
+                @if (user.Picture != null)
+                {
+                    <div class="card-image">
+                        @*Display player image*@
+                    </div>
+                }
                 <h4>
-                    @beer.Name
+                    @user.Name
                 </h4>
             </div>
         </div>
