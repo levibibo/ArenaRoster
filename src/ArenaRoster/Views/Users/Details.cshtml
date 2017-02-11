@@ -10,14 +10,29 @@
     }
 }
 
-<h1>@Model.Name</h1>
-<hr />
-@foreach(ArenaRoster.Models.UserTeam userTeam in Model.UserTeams.ToList())
-{
-    <div class="card">
-        <div class="card-content">
-            <img height="50%" width="50%" src="@Image" />
-            <h4><a href="/Users/Details/">@userTeam.Team.Name</a></h4>
+<div class="navbar-fixed">
+    <nav class="green darken-2">
+        <div class="nav-wrapper">
+            <ul class="left hide-on-med-and-down"></ul>
+            <a href="/" class="brand-logo center hide-on-med-and-down">ArenaRoster</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/Users/Create">Add New User</a></li>
+                <li><a href="/Teams/Create">Add New Team</a></li>
+            </ul>
         </div>
-    </div>
-}
+    </nav>
+</div>
+
+<div class="container">
+    <h1>@Model.Name</h1>
+    <hr />
+    @foreach(ArenaRoster.Models.UserTeam userTeam in Model.UserTeams.ToList())
+    {
+        <div class="card">
+            <div class="card-content">
+                <img height="50%" width="50%" src="@Image" />
+                <h4><a href="/Users/Details/">@userTeam.Team.Name</a></h4>
+            </div>
+        </div>
+    }
+</div>

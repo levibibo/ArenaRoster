@@ -4,21 +4,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@Model.Name</h1>
-<hr />
-<h4>Add Player:</h4>
-@using (Html.BeginForm())
-{
-    <label for="UserId">User: </label>
-    <select class="browser-default" name="selectedUser" asp-items="@ViewBag.Users"></select>
+<div class="navbar-fixed">
+    <nav class="green darken-2">
+        <div class="nav-wrapper">
+            <ul class="left hide-on-med-and-down"></ul>
+            <a href="/" class="brand-logo center hide-on-med-and-down">ArenaRoster</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/Users/Create">Add New User</a></li>
+                <li><a href="/Teams/Create">Add New Team</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
 
-    <input class="btn" type="submit" value="Add User" />
-}
-
-<h4>@Model.Name's Roster</h4>
-@{
-    @foreach(ArenaRoster.Models.UserTeam beerTeam in Model.UserTeams)
+<div class="container">
+    <h1>@Model.Name</h1>
+    <hr />
+    <h4>Add Player:</h4>
+    @using (Html.BeginForm())
     {
-        <p>@beerTeam.User.Name</p>
+        <label for="UserId">User: </label>
+        <select class="browser-default" name="selectedUser" asp-items="@ViewBag.Users"></select>
+
+        <input class="btn" type="submit" value="Add User" />
     }
-}
+
+    <h4>@Model.Name's Roster</h4>
+    @{
+        @foreach(ArenaRoster.Models.UserTeam beerTeam in Model.UserTeams)
+        {
+            <p>@beerTeam.User.Name</p>
+        }
+    }
+</div>

@@ -2,25 +2,23 @@
     ViewData["Title"] = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model List<ArenaRoster.Models.User>
+@model ArenaRoster.Models.User
 
-<h1>List of Users</h1>
-<hr />
-@foreach (ArenaRoster.Models.User user in Model)
-{
-    <a href="/Users/Details/@user.UserId">
-        <div class="card">
-            <div class="card-content">
-                @if (user.Picture != null)
-                {
-                    <div class="card-image">
-                        @*Display player image*@
-                    </div>
-                }
-                <h4>
-                    @user.Name
-                </h4>
-            </div>
+<div class="navbar-fixed">
+    <nav class="green darken-2">
+        <div class="nav-wrapper">
+            <ul class="left">
+
+            </ul>
+            <a href="/" class="brand-logo center">ArenaRoster</a>
+            <ul class="right">
+                <li><a href="/Users/Create">Add New User</a></li>
+                <li><a href="/Teams/Create">Add New Team</a></li>
+            </ul>
         </div>
-    </a>
-}
+    </nav>
+</div>
+
+<div class="container">
+
+</div>
