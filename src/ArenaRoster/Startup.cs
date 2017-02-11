@@ -43,6 +43,8 @@ namespace ArenaRoster
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            app.UseStaticFiles();
+
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Route Error");
