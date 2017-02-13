@@ -4,54 +4,58 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ArenaRoster.Models
 {
-    public class ArenaRosterDbContext : DbContext
+    public class ArenaRosterDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ArenaRosterDbContext()
+        public ArenaRosterDbContext(DbContextOptions options) : base(options)
         {
 
         }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Team> Teams { get; set; }
-        public DbSet<UserTeam> UserTeam { get; set; }
+        //public DbSet<Player> Players { get; set; }
+        //public DbSet<Team> Teams { get; set; }
+        //public DbSet<PlayerTeam> PlayerTeam { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ArenaRosterDb;integrated security=True");
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<UserTeam>()
-                .HasKey(ut => ut.UserTeamId);
-            modelBuilder.Entity<UserTeam>()
-                .HasOne(ut => ut.User)
-                .WithMany(u => u.UserTeams)
-                .HasForeignKey(ut => ut.UserId);
-            modelBuilder.Entity<UserTeam>()
-                .HasOne(ut => ut.Team)
-                .WithMany(t => t.UserTeams)
-                .HasForeignKey(ut => ut.TeamId);
-        }
+
+        //    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //    {
+        //        modelBuilder.Entity<PlayerTeam>()
+        //            .HasKey(ut => ut.PlayerTeamId);
+        //        modelBuilder.Entity<PlayerTeam>()
+        //            .HasOne(ut => ut.Player)
+        //            .WithMany(u => u.PlayerTeams)
+        //            .HasForeignKey(ut => ut.PlayerId);
+        //        modelBuilder.Entity<PlayerTeam>()
+        //            .HasOne(ut => ut.Team)
+        //            .WithMany(t => t.PlayerTeams)
+        //            .HasForeignKey(ut => ut.TeamId);
+        //    }
     }
 
-    public class UserTeam
-    {
-        public UserTeam()
-        {
+    //public class PlayerTeam
+    //{
+    //    public PlayerTeam()
+    //    {
 
-        }
-        public UserTeam(int userId, int teamId)
-        {
-            UserId = userId;
-            TeamId = teamId;
-        }
-        public int UserTeamId { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
-        public int TeamId { get; set; }
-        public Team Team { get; set; }
-         
-    }
+    //    }
+    //    public PlayerTeam(int userId, int teamId)
+    //    {
+    //        PlayerId = userId;
+    //        TeamId = teamId;
+    //    }
+
+    //    [Key]
+    //    public int PlayerTeamId { get; set; }
+    //    public int PlayerId { get; set; }
+    //    public Player Player { get; set; }
+    //    public int TeamId { get; set; }
+    //    public Team Team { get; set; }
+
+    //}
 }

@@ -12,6 +12,14 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="/Users/Create">Add New User</a></li>
                 <li><a href="/Teams/Create">Add New Team</a></li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><a href="/Account">@User.Identity.Name's Account</a></li>
+                }
+                else
+                {
+                    <li><a href="/Account">Login</a></li>
+                }
             </ul>
         </div>
     </nav>
@@ -31,7 +39,7 @@
 
     <h4>@Model.Name's Roster</h4>
     @{
-        @foreach(ArenaRoster.Models.UserTeam beerTeam in Model.UserTeams)
+        @foreach(ArenaRoster.Models.PlayerTeam beerTeam in Model.UserTeams)
         {
             <p>@beerTeam.User.Name</p>
         }

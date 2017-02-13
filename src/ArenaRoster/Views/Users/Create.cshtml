@@ -10,8 +10,16 @@
             <ul class="left hide-on-med-and-down"></ul>
             <a href="/" class="brand-logo center hide-on-med-and-down">ArenaRoster</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/Users/Create">Add New User</a></li>
+                <li class="active"><a href="/Users/Create">Add New User</a></li>
                 <li><a href="/Teams/Create">Add New Team</a></li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><a href="/Account">@User.Identity.Name's Account</a></li>
+                }
+                else
+                {
+                    <li><a href="/Account">Login</a></li>
+                }
             </ul>
         </div>
     </nav>

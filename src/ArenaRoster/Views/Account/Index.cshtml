@@ -1,8 +1,7 @@
 ﻿@{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model ArenaRoster.Models.User
 
 <div class="navbar-fixed">
     <nav class="green darken-2">
@@ -14,11 +13,11 @@
                 <li><a href="/Teams/Create">Add New Team</a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li><a href="/Account">@User.Identity.Name's Account</a></li>
+                    <li class="active"><a href="/Account">@User.Identity.Name's Account</a></li>
                 }
                 else
                 {
-                    <li><a href="/Account">Login</a></li>
+                    <li class="active"><a href="/Account">Login</a></li>
                 }
             </ul>
         </div>
@@ -26,5 +25,17 @@
 </div>
 
 <div class="container">
-
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h1>@User.Identity.Name Account Settings</h1>
+        <hr />
+        <p>@Html.ActionLink("Log Out", "LogOff")</p>
+    }
+    else
+    {
+        <h1>Login or Register a New Account</h1>
+        <hr />
+        <p>@Html.ActionLink("Register", "Register")</p>
+        <p>@Html.ActionLink("Log in", "Login")</p>
+    }
 </div>

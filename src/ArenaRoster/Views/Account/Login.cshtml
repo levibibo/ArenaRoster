@@ -1,8 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = "Log In";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model ArenaRoster.Models.User
+@using ArenaRoster.ViewModels
+
+@model LoginViewModel
 
 <div class="navbar-fixed">
     <nav class="green darken-2">
@@ -26,5 +28,16 @@
 </div>
 
 <div class="container">
+    <h1>Log in with your account</h1>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email)
 
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password)
+
+        <input type="submit" value="Log in" class="btn btn-default" />
+    }
 </div>

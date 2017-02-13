@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using ArenaRoster.Models;
 
 namespace ArenaRoster
@@ -25,29 +26,31 @@ namespace ArenaRoster
                 .AddJsonFile("appsettings.json");
             Configuration = builder.Build();
         }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddEntityFramework()
                 .AddDbContext<ArenaRosterDbContext>(options =>
                     options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ArenaRosterDbContext>()
+                .AddDefaultTokenProviders();
         }
-
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseIdentity();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
             app.UseStaticFiles();
-
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Route Error");
+                await context.Response.WriteAsync("Hello World!");
             });
         }
     }
