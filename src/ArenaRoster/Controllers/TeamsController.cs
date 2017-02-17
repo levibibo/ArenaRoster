@@ -80,6 +80,18 @@ namespace ArenaRoster.Controllers
             }
         }
 
+        public IActionResult Schedule(int id)
+        {
+            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            return View(team);
+        }
+
+        public IActionResult Admin(int id)
+        {
+            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            return View(team);
+        }
+
         public IActionResult NotAMember()
         {
             return View();
