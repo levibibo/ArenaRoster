@@ -65,6 +65,70 @@ namespace ArenaRoster.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ArenaRoster.Models.Player", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AppUserId");
+
+                    b.Property<byte[]>("Image");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("PositionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("PositionId");
+
+                    b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("ArenaRoster.Models.PlayerTeam", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("PlayerId");
+
+                    b.Property<int>("TeamId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("PlayersTeams");
+                });
+
+            modelBuilder.Entity("ArenaRoster.Models.Position", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Positions");
+                });
+
+            modelBuilder.Entity("ArenaRoster.Models.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
                     b.Property<string>("Id");
@@ -170,6 +234,30 @@ namespace ArenaRoster.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("ArenaRoster.Models.Player", b =>
+                {
+                    b.HasOne("ArenaRoster.Models.ApplicationUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("ArenaRoster.Models.Position", "Position")
+                        .WithMany("Players")
+                        .HasForeignKey("PositionId");
+                });
+
+            modelBuilder.Entity("ArenaRoster.Models.PlayerTeam", b =>
+                {
+                    b.HasOne("ArenaRoster.Models.Player", "Player")
+                        .WithMany("Teams")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ArenaRoster.Models.Team", "Team")
+                        .WithMany("Roster")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
