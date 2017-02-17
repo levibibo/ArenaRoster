@@ -5,15 +5,14 @@
 @model ArenaRoster.Models.Team
 
 <div class="navbar-fixed">
-    <nav class="green darken-2">
+    <nav class="green darken-4">
         <div class="nav-wrapper">
             <ul class="left hide-on-med-and-down"></ul>
             <a href="/" class="brand-logo center hide-on-med-and-down">ArenaRoster</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/Users/Create">Add New User</a></li>
-                <li class="active"><a href="/Teams/Create">Add New Team</a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <li class="active"><a href="/Teams/Create">Add New Team</a></li>
                     <li><a href="/Account">@User.Identity.Name's Account</a></li>
                 }
                 else
@@ -27,11 +26,13 @@
 
 <div class="container">
     <h1>Add a team to the database:</h1>
-    @using (Html.BeginForm())
-    {
-        @Html.LabelFor(model => model.Name)
-        @Html.TextBoxFor(model => model.Name)
+    <hr />
+    <form method="post" asp-action="Create" asp-controller="Teams">
+        <div class="input-field">
+            <label for="name">Team Name</label>
+            <input type="text" name="name" id="name" required />
+        </div>
         <br />
         <input class="btn" type="submit" value="Add Team" />
-    }
+    </form>
 </div>

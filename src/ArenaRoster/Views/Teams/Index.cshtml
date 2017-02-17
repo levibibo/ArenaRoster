@@ -2,18 +2,18 @@
     ViewData["Title"] = "Teams";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model List<ArenaRoster.Models.Team>
+@using ArenaRoster.Models
+@model List<Team>
 
 <div class="navbar-fixed">
-    <nav class="green darken-2">
+    <nav class="green darken-4">
         <div class="nav-wrapper">
             <ul class="left hide-on-med-and-down"></ul>
             <a href="/" class="brand-logo center hide-on-med-and-down">ArenaRoster</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/Users/Create">Add New User</a></li>
-                <li><a href="/Teams/Create">Add New Team</a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <li><a href="/Teams/Create">Add New Team</a></li>
                     <li><a href="/Account">@User.Identity.Name's Account</a></li>
                 }
                 else
@@ -28,11 +28,11 @@
 <div class="container">
     <h1>List of Teams</h1>
     <hr />
-    @foreach(ArenaRoster.Models.Team team in Model)
+    @foreach(Team team in Model)
     {
         <div class="card">
             <div class="card-content">
-                <h4><a href="/Teams/Details/@team.TeamId">@team.Name</a></h4>
+                <h4><a href="/Teams/Details/@team.Id">@team.Name</a></h4>
             </div>
         </div>
     }
