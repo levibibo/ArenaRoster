@@ -7,6 +7,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace ArenaRoster.Models
 {
     public class ApplicationUser : IdentityUser
-    {
+    { 
     }
 }

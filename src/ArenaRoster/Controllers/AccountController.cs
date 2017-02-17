@@ -35,10 +35,14 @@ namespace ArenaRoster.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            ApplicationUser user = new ApplicationUser { UserName = model.Email.Split('@')[0], Email = model.Email };
+            ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                Player newPlayer = new Player() { Name = model.Name, AppUserId = user.Id };
+                _db.Players.Add(newPlayer);
+                _db.SaveChanges();
+                Microsoft.AspNetCore.Identity.SignInResult loginResult = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
                 return RedirectToAction("Index");
             }
             else
@@ -55,6 +59,7 @@ namespace ArenaRoster.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
             if (result.Succeeded)
             {
