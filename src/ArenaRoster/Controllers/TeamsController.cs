@@ -53,7 +53,10 @@ namespace ArenaRoster.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(User);
             Player player = _db.Players.FirstOrDefault(p => p.AppUserId == user.Id);
             Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
-            List<PlayerTeam> roster = _db.PlayersTeams.Include(pt => pt.Player).Where(pt => pt.Team == team).ToList();
+            List<PlayerTeam> roster = _db.PlayersTeams.Include(pt => pt.Player)
+                .ThenInclude(p => p.AppUser)
+                .Where(pt => pt.Team == team)
+                .ToList();
             ViewBag.Roster = new List<Player>() { };
             foreach(PlayerTeam playerEntry in roster)
             {
