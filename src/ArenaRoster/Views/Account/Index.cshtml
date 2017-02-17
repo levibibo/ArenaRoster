@@ -41,7 +41,7 @@
             {
                 <div class="card col s12 m4">
                     <div class="card-content">
-                        <p class="card-title">@Html.ActionLink(team.Name, "Details", "Team")</p>
+                        <p class="card-title">@Html.ActionLink(team.Name, "Details", "Teams", new { id = team.Id })</p>
                     </div>
                 </div>
             }
