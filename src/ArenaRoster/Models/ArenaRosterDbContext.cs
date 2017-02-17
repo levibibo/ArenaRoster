@@ -14,9 +14,10 @@ namespace ArenaRoster.Models
         {
 
         }
-        //public DbSet<Player> Players { get; set; }
-        //public DbSet<Team> Teams { get; set; }
-        //public DbSet<PlayerTeam> PlayerTeam { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<PlayerTeam> PlayersTeams { get; set; }
+        public DbSet<Position> Positions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -37,25 +38,4 @@ namespace ArenaRoster.Models
         //            .HasForeignKey(ut => ut.TeamId);
         //    }
     }
-
-    //public class PlayerTeam
-    //{
-    //    public PlayerTeam()
-    //    {
-
-    //    }
-    //    public PlayerTeam(int userId, int teamId)
-    //    {
-    //        PlayerId = userId;
-    //        TeamId = teamId;
-    //    }
-
-    //    [Key]
-    //    public int PlayerTeamId { get; set; }
-    //    public int PlayerId { get; set; }
-    //    public Player Player { get; set; }
-    //    public int TeamId { get; set; }
-    //    public Team Team { get; set; }
-
-    //}
 }
