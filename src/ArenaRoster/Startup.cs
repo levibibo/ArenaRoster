@@ -33,7 +33,12 @@ namespace ArenaRoster
             services.AddEntityFramework()
                 .AddDbContext<ArenaRosterDbContext>(options =>
                     options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+            })
                 .AddEntityFrameworkStores<ArenaRosterDbContext>()
                 .AddDefaultTokenProviders();
         }
