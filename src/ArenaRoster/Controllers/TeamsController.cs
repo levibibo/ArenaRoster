@@ -48,18 +48,38 @@ namespace ArenaRoster.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return View(_db.Teams.FirstOrDefault(team => team.Id == id));
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            Player player = _db.Players.FirstOrDefault(p => p.AppUserId == user.Id);
+            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            List<PlayerTeam> roster = _db.PlayersTeams.Include(pt => pt.Player).Where(pt => pt.Team == team).ToList();
+            ViewBag.Roster = new List<Player>() { };
+            foreach(PlayerTeam playerEntry in roster)
+            {
+                ViewBag.Roster.Add(playerEntry.Player);
+            }
+            bool PlayerOnTeam = false;
+            foreach(Player teammate in ViewBag.Roster)
+            {
+                if (teammate.Id == player.Id)
+                {
+                    PlayerOnTeam = true;
+                }
+            }
+            if (PlayerOnTeam)
+            {
+                return View(team);
+            }
+            else
+            {
+                return RedirectToAction("NotAMember");
+            }
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Details(string name)
-        //{
-        //    Team newTeam = new Team(name);
-        //    newTeam.Users.Add(await _userManager.FindByIdAsync(User.Claims.));
-        //    _db.Teams.Add(newTeam);
-        //    _db.SaveChanges();
-        //    return RedirectToAction("Details");
-        //}
+
+        public IActionResult NotAMember()
+        {
+            return View();
+        }
     }
 }
