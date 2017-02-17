@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ArenaRoster.Models;
 using Microsoft.AspNetCore.Identity;
 using ArenaRoster.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace ArenaRoster.Controllers
 {
@@ -22,8 +24,25 @@ namespace ArenaRoster.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            Player player = _db.Players.FirstOrDefault(p => p.AppUserId == user.Id);
+            ViewBag.Player = player;
+            List<PlayerTeam> teams = _db.PlayersTeams.Include(pt => pt.Team)
+                .Where(pt => pt.PlayerId == player.Id)
+                .OrderBy(pt => pt.Team.Name)
+                .ToList();
+            foreach(PlayerTeam entry in teams)
+            {
+                Debug.WriteLine(entry.Team.Name);
+            }
+            ViewBag.Teams = new List<Team>() { };
+            foreach(PlayerTeam teamEntry in teams)
+            {
+                Debug.WriteLine(teamEntry.Team.Name);
+                ViewBag.Teams.Add(teamEntry.Team);
+            }
             return View();
         }
 

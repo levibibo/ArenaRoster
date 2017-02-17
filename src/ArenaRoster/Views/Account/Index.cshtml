@@ -2,6 +2,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using ArenaRoster.Models
 
 <div class="navbar-fixed">
     <nav class="green darken-4">
@@ -28,10 +29,23 @@
     {
         <h1>@User.Identity.Name Account Settings</h1>
         <hr />
-        @using (Html.BeginForm("LogOff", "Account"))
-        {
-            <input type="submit" class="btn green" value="Log out" />
-        }
+        <div class="row">
+            @using (Html.BeginForm("LogOff", "Account"))
+            {
+                <input type="submit" class="btn green" value="Log out" />
+            }
+            @Html.ActionLink("Edit Account Information", "Edit")
+        </div>
+        <div class="row">
+            @foreach(Team team in ViewBag.Teams)
+            {
+                <div class="card col s12 m4">
+                    <div class="card-content">
+                        <p class="card-title">@Html.ActionLink(team.Name, "Details", "Team")</p>
+                    </div>
+                </div>
+            }
+        </div>
     }
     else
     {
