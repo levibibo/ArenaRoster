@@ -44,7 +44,7 @@ namespace ArenaRoster.Controllers
             PlayerTeam newPlayerTeam = new PlayerTeam() { AppUser = user, Team = newTeam };
             _db.PlayersTeams.Add(newPlayerTeam);
             _db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { id = newTeam.Id });
         }
 
         public async Task<IActionResult> Details(int id)

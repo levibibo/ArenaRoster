@@ -27,6 +27,7 @@ namespace ArenaRoster.Controllers
         public async Task<IActionResult> Index()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
+            ViewBag.User = user;
             if (user != null)
             {
                 List<Team> teams = _db.PlayersTeams.Include(pt => pt.Team)
