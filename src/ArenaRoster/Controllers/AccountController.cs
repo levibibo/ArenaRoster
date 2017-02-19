@@ -27,23 +27,15 @@ namespace ArenaRoster.Controllers
         public async Task<IActionResult> Index()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            Player player = _db.Players.FirstOrDefault(p => p.AppUserId == user.Id);
-            ViewBag.Player = player;
-            List<PlayerTeam> teams = _db.PlayersTeams.Include(pt => pt.Team)
-                .Where(pt => pt.PlayerId == player.Id)
-                .OrderBy(pt => pt.Team.Name)
-                .ToList();
-            foreach(PlayerTeam entry in teams)
+            if (user != null)
             {
-                Debug.WriteLine(entry.Team.Name);
+                List<Team> teams = _db.PlayersTeams.Include(pt => pt.Team)
+                    .Where(pt => pt.AppUser == user)
+                    .Select(pt => pt.Team)
+                    .ToList();
+                return View(teams);
             }
-            ViewBag.Teams = new List<Team>() { };
-            foreach(PlayerTeam teamEntry in teams)
-            {
-                Debug.WriteLine(teamEntry.Team.Name);
-                ViewBag.Teams.Add(teamEntry.Team);
-            }
-            return View();
+            return View(new List<Team>(){});
         }
 
         public IActionResult Register()
@@ -54,13 +46,10 @@ namespace ArenaRoster.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                Player newPlayer = new Player() { Name = model.Name, AppUserId = user.Id };
-                _db.Players.Add(newPlayer);
-                _db.SaveChanges();
                 Microsoft.AspNetCore.Identity.SignInResult loginResult = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
                 return RedirectToAction("Index");
             }

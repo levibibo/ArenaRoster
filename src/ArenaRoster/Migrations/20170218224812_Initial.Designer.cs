@@ -8,7 +8,7 @@ using ArenaRoster.Models;
 namespace ArenaRoster.Migrations
 {
     [DbContext(typeof(ArenaRosterDbContext))]
-    [Migration("20170217040413_Initial")]
+    [Migration("20170218224812_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,13 @@ namespace ArenaRoster.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<byte[]>("Image");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("Name");
 
                     b.Property<string>("NormalizedEmail")
                         .HasAnnotation("MaxLength", 256);
@@ -46,6 +50,8 @@ namespace ArenaRoster.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<int?>("PositionId");
 
                     b.Property<string>("SecurityStamp");
 
@@ -63,29 +69,51 @@ namespace ArenaRoster.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
+                    b.HasIndex("PositionId");
+
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("ArenaRoster.Models.Player", b =>
+            modelBuilder.Entity("ArenaRoster.Models.Availability", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AppUserId");
+                    b.Property<bool>("Available");
 
-                    b.Property<byte[]>("Image");
+                    b.Property<int?>("GameId");
 
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("PositionId");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("GameId");
 
-                    b.HasIndex("PositionId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Players");
+                    b.ToTable("Availability");
+                });
+
+            modelBuilder.Entity("ArenaRoster.Models.Game", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Location");
+
+                    b.Property<int?>("TeamId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("ArenaRoster.Models.PlayerTeam", b =>
@@ -93,13 +121,13 @@ namespace ArenaRoster.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("PlayerId");
+                    b.Property<string>("AppUserId");
 
                     b.Property<int>("TeamId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PlayerId");
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("TeamId");
 
@@ -237,23 +265,40 @@ namespace ArenaRoster.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ArenaRoster.Models.Player", b =>
+            modelBuilder.Entity("ArenaRoster.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("ArenaRoster.Models.ApplicationUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("ArenaRoster.Models.Position", "Position")
-                        .WithMany("Players")
+                        .WithMany("AppUsers")
                         .HasForeignKey("PositionId");
+                });
+
+            modelBuilder.Entity("ArenaRoster.Models.Availability", b =>
+                {
+                    b.HasOne("ArenaRoster.Models.Game", "Game")
+                        .WithMany("AvailablePlayers")
+                        .HasForeignKey("GameId");
+
+                    b.HasOne("ArenaRoster.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("ArenaRoster.Models.Game", b =>
+                {
+                    b.HasOne("ArenaRoster.Models.ApplicationUser")
+                        .WithMany("Games")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("ArenaRoster.Models.Team", "Team")
+                        .WithMany("Schedule")
+                        .HasForeignKey("TeamId");
                 });
 
             modelBuilder.Entity("ArenaRoster.Models.PlayerTeam", b =>
                 {
-                    b.HasOne("ArenaRoster.Models.Player", "Player")
+                    b.HasOne("ArenaRoster.Models.ApplicationUser", "AppUser")
                         .WithMany("Teams")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AppUserId");
 
                     b.HasOne("ArenaRoster.Models.Team", "Team")
                         .WithMany("Roster")

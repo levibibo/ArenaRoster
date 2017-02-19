@@ -10,7 +10,7 @@ namespace ArenaRoster.Models
     {
         [Key]
         public int Id { get; set; }
+        public List<ApplicationUser> AppUsers { get; set; }
         public string Name { get; set; }
-        public List<Player> Players { get; set; }
     }
 }

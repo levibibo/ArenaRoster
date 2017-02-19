@@ -4,35 +4,12 @@
 }
 @model ArenaRoster.Models.Team
 
-<div class="navbar-fixed">
-    <nav class="green darken-4">
-        <div class="nav-wrapper">
-            <ul class="left hide-on-med-and-down"></ul>
-            <a href="/" class="brand-logo center hide-on-med-and-down">ArenaRoster</a>
-            <ul class="right hide-on-med-and-down">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li class="active"><a href="/Teams/Create">Add New Team</a></li>
-                    <li><a href="/Account">@User.Identity.Name's Account</a></li>
-                }
-                else
-                {
-                    <li><a href="/Account">Login</a></li>
-                }
-            </ul>
-        </div>
-    </nav>
-</div>
-
-<div class="container">
-    <h1>Add a team to the database:</h1>
-    <hr />
-    <form method="post" asp-action="Create" asp-controller="Teams">
-        <div class="input-field">
-            <label for="name">Team Name</label>
-            <input type="text" name="name" id="name" required />
-        </div>
-        <br />
-        <input class="btn" type="submit" value="Add Team" />
-    </form>
-</div>
+<h1>Add a team to the database:</h1>
+<hr />
+<div class="input-field">
+@using (Html.BeginForm())
+    @Html.LabelFor(m => m.Name)
+    @Html.TextBoxFor(m => m.Name, new { @id = "name", @required = "true" })
+    </div>
+    <input class="btn" type="submit" value="Add Team" />
+}

@@ -5,43 +5,13 @@
 @using ArenaRoster.Models
 @model Team
 
-<div class="navbar-fixed">
-    <nav class="green darken-4">
-        <div class="nav-wrapper">
-            <ul class="left hide-on-med-and-down">
-                <li>@Html.ActionLink("Roster", "Details", new { id = Model.Id })</li>
-                <li>@Html.ActionLink("Schedule", "Schedule", new { id = Model.Id })</li>
-                @if (true)
-                {
-                    <li class="active">@Html.ActionLink("Team Admin", "Admin", new { id = Model.Id })</li>
+<h1>@Model.Name</h1>
+<hr />
 
-                }
-            </ul>
-            <a href="/" class="brand-logo center hide-on-med-and-down">ArenaRoster</a>
-            <ul class="right hide-on-med-and-down">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li><a href="/Teams/Create">Add New Team</a></li>
-                    <li><a href="/Account">@User.Identity.Name's Account</a></li>
-                }
-                else
-                {
-                    <li><a href="/Account">Login</a></li>
-                }
-            </ul>
-        </div>
-    </nav>
-</div>
-
-<div class="container">
-    <h1>@Model.Name</h1>
-    <hr />
-
-    <h4>Team Administration</h4>
-    <div class="row">
-        <div class="col s12">
-            @Html.ActionLink("Add Player", "AddPlayer", new { id = Model.Id }) |
-            @Html.ActionLink("Add Game", "AddGame", new { id = Model.Id })
-        </div>
+<h4>Team Administration</h4>
+<div class="row">
+    <div class="col s12">
+        @Html.ActionLink("Add Player", "AddPlayer", new { id = Model.Id }) |
+        @Html.ActionLink("Add Game", "AddGame", new { id = Model.Id })
     </div>
 </div>

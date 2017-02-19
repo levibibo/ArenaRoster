@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ArenaRoster.Models
 {
-    public class PlayerTeam
+    public class Availability
     {
         [Key]
         public int Id { get; set; }
-        public ApplicationUser AppUser { get; set; }
-        public int TeamId { get; set; }
-        public Team Team { get; set; }
+        public virtual ApplicationUser User { get; set; }
+        public virtual Game Game { get; set; }
+        public bool Available { get; set; }
     }
 }

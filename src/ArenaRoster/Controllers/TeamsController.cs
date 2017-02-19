@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ArenaRoster.Controllers
 {
@@ -24,6 +25,7 @@ namespace ArenaRoster.Controllers
             _signInManager = signInManager;
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
             return View(_db.Teams.ToList());
@@ -31,18 +33,15 @@ namespace ArenaRoster.Controllers
 
         public IActionResult Create()
         {
-            Debug.WriteLine("test");
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(string name)
+        public async Task<IActionResult> Create(Team newTeam)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            Player userPlayer = _db.Players.FirstOrDefault(p => p.AppUserId == user.Id);
-            Team newTeam = new Team() { Name = name };
             _db.Teams.Add(newTeam);
             _db.SaveChanges();
-            PlayerTeam newPlayerTeam = new PlayerTeam() { Player = userPlayer, Team = newTeam };
+            PlayerTeam newPlayerTeam = new PlayerTeam() { AppUser = user, Team = newTeam };
             _db.PlayersTeams.Add(newPlayerTeam);
             _db.SaveChanges();
             return RedirectToAction("Index");
@@ -51,39 +50,35 @@ namespace ArenaRoster.Controllers
         public async Task<IActionResult> Details(int id)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            Player player = _db.Players.FirstOrDefault(p => p.AppUserId == user.Id);
             Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
-            List<PlayerTeam> roster = _db.PlayersTeams.Include(pt => pt.Player)
-                .ThenInclude(p => p.AppUser)
+            ViewBag.Roster = _db.PlayersTeams.Include(pt => pt.AppUser)
                 .Where(pt => pt.Team == team)
+                .Select(pt => pt.AppUser)
                 .ToList();
-            ViewBag.Roster = new List<Player>() { };
-            foreach(PlayerTeam playerEntry in roster)
+            foreach(ApplicationUser teammate in ViewBag.Roster)
             {
-                ViewBag.Roster.Add(playerEntry.Player);
-            }
-            bool PlayerOnTeam = false;
-            foreach(Player teammate in ViewBag.Roster)
-            {
-                if (teammate.Id == player.Id)
+                if (teammate == user)
                 {
-                    PlayerOnTeam = true;
+                    return View(team);
                 }
             }
-            if (PlayerOnTeam)
-            {
-                return View(team);
-            }
-            else
-            {
-                return RedirectToAction("NotAMember");
-            }
+            return RedirectToAction("NotAMember");
         }
 
         public IActionResult Schedule(int id)
         {
             Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
-            return View(team);
+            ViewBag.Team = team;
+            ViewBag.Roster = _db.PlayersTeams
+                .Include(pt => pt.Team)
+                .Where(pt => pt.Team == team)
+                .Select(pt => pt.AppUser)
+                .ToList();
+            List<Game> Schedule = _db.Games
+                .Include(g => g.AvailablePlayers)
+                .Where(g => g.Team == team)
+                .ToList();
+            return View(Schedule);
         }
 
         public IActionResult Admin(int id)

@@ -3,55 +3,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using ArenaRoster.Models
+@model List<Team>
 
-<div class="navbar-fixed">
-    <nav class="green darken-4">
-        <div class="nav-wrapper">
-            <ul class="left hide-on-med-and-down"></ul>
-            <a href="/" class="brand-logo center hide-on-med-and-down">ArenaRoster</a>
-            <ul class="right hide-on-med-and-down">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li><a href="/Teams/Create">Add New Team</a></li>
-                    <li class="active"><a href="/Account">@User.Identity.Name's Account</a></li>
-                }
-                else
-                {
-                    <li class="active"><a href="/Account">Login</a></li>
-                }
-            </ul>
-        </div>
-    </nav>
-</div>
-
-<div class="container">
-    @if (User.Identity.IsAuthenticated)
-    {
-        <h1>@User.Identity.Name Account Settings</h1>
-        <hr />
-        <div class="row">
-            @using (Html.BeginForm("LogOff", "Account"))
-            {
-                <input type="submit" class="btn green" value="Log out" />
-            }
-            @Html.ActionLink("Edit Account Information", "Edit")
-        </div>
-        <div class="row">
-            @foreach(Team team in ViewBag.Teams)
-            {
-                <div class="card col s12 m4">
-                    <div class="card-content">
-                        <p class="card-title">@Html.ActionLink(team.Name, "Details", "Teams", new { id = team.Id })</p>
-                    </div>
+@if (User.Identity.IsAuthenticated)
+{
+    <h1>@User.Identity.Name Account Settings</h1>
+    <hr />
+    <div class="row">
+        @using (Html.BeginForm("LogOff", "Account"))
+        {
+            <input type="submit" class="btn green" value="Log out" />
+        }
+        @Html.ActionLink("Edit Account Information", "Edit")
+    </div>
+    <div class="row">
+        @foreach(Team team in Model)
+        {
+            <div class="card col s12 m4">
+                <div class="card-content">
+                    <p class="card-title">@Html.ActionLink(team.Name, "Details", "Teams", new { id = team.Id })</p>
                 </div>
-            }
-        </div>
-    }
-    else
-    {
-        <h1>Login or Register a New Account</h1>
-        <hr />
-        <p>@Html.ActionLink("Register", "Register")</p>
-        <p>@Html.ActionLink("Log in", "Login")</p>
-    }
-</div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <h1>Login or Register a New Account</h1>
+    <hr />
+    <p>@Html.ActionLink("Register", "Register")</p>
+    <p>@Html.ActionLink("Log in", "Login")</p>
+}

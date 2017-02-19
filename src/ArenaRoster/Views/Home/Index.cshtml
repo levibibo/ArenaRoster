@@ -3,37 +3,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="navbar-fixed">
-    <nav class="green darken-4">
-        <div class="nav-wrapper">
-            <ul class="left hide-on-med-and-down"></ul>
-            <a href="/" class="brand-logo center hide-on-med-and-down">ArenaRoster</a>
-            <ul class="right hide-on-med-and-down">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li><a href="/Teams/Create">Add New Team</a></li>
-                    <li><a href="/Account">@User.Identity.Name's Account</a></li>
-                }
-                else
-                {
-                    <li><a href="/Account">Login</a></li>
-                }
-            </ul>
-        </div>
-    </nav>
-</div>
-
-<div class="container">
-    <h1>Arena Roster</h1>
-    <hr />
-    <p>Track schedules and availabilities for your rec teams.</p>
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <p>Create an account, create a team, input your schedule, and invite your teammates to join.</p>
-    }
-    else
-    {
-        <p>Since you have an account, all you have to do is create a team, input your schedule, and invite your teammates to join.</p>
-    }
-    <p>Edit your availability and everyone else on the team will be able to see it, helping you plan for substitutes.</p>
-</div>
+<h1>Arena Roster</h1>
+<hr />
+<p>Track schedules and availabilities for your rec teams.</p>
+@if (!User.Identity.IsAuthenticated)
+{
+    <p>Create an account, create a team, input your schedule, and invite your teammates to join.</p>
+}
+else
+{
+    <p>Since you have an account, all you have to do is create a team, input your schedule, and invite your teammates to join.</p>
+}
+<p>Edit your availability and everyone else on the team will be able to see it, helping you plan for substitutes.</p>

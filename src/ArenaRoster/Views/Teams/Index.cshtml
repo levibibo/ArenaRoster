@@ -5,35 +5,13 @@
 @using ArenaRoster.Models
 @model List<Team>
 
-<div class="navbar-fixed">
-    <nav class="green darken-4">
-        <div class="nav-wrapper">
-            <ul class="left hide-on-med-and-down"></ul>
-            <a href="/" class="brand-logo center hide-on-med-and-down">ArenaRoster</a>
-            <ul class="right hide-on-med-and-down">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li><a href="/Teams/Create">Add New Team</a></li>
-                    <li><a href="/Account">@User.Identity.Name's Account</a></li>
-                }
-                else
-                {
-                    <li><a href="/Account">Login</a></li>
-                }
-            </ul>
+<h1>List of Teams</h1>
+<hr />
+@foreach(Team team in Model)
+{
+    <div class="card">
+        <div class="card-content">
+            <h4><a href="/Teams/Details/@team.Id">@team.Name</a></h4>
         </div>
-    </nav>
-</div>
-
-<div class="container">
-    <h1>List of Teams</h1>
-    <hr />
-    @foreach(Team team in Model)
-    {
-        <div class="card">
-            <div class="card-content">
-                <h4><a href="/Teams/Details/@team.Id">@team.Name</a></h4>
-            </div>
-        </div>
-    }
-</div>
+    </div>
+}
