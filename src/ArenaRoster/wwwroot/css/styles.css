@@ -15,7 +15,15 @@ hr {
 }
 
 h1 {
+    text-align: center;
     font-size: 3rem;
+    line-height: 100%;
+    color: #050;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.5rem;
     line-height: 100%;
     color: #050;
 }
@@ -26,4 +34,22 @@ a {
 
 a:hover {
     color: lightgreen;
+}
+
+.not-button {
+    color: darkgreen;
+    background:none!important;
+    border:none; 
+    padding:0!important;
+    font: inherit;
+    cursor: pointer;
+}
+
+.not-button:hover {
+    color: lightgreen;
+}
+
+#account-buttons {
+    display: flex;
+    justify-content: center;
 }
