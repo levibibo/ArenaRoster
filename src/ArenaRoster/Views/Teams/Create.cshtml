@@ -6,10 +6,14 @@
 
 <h1>Add a team to the database:</h1>
 <hr />
-<div class="input-field">
 @using (Html.BeginForm())
+{
+    <div class="input-field">
     @Html.LabelFor(m => m.Name)
-    @Html.TextBoxFor(m => m.Name, new { @id = "name", @required = "true" })
+    @Html.TextBoxFor(m => m.Name, new { @id = "name", @required="true" })
     </div>
-    <input class="btn" type="submit" value="Add Team" />
+    <input class="btn blue" type="submit" value="Add Team" />
 }
+
+<p>Your team will be created with this name and you will be added as a team member.</p>
+<p>You will be redirected to the team's home page, where you can add and remove players and set the schedule.</p>
