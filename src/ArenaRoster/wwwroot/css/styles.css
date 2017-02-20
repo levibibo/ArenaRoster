@@ -28,6 +28,12 @@ h2 {
     color: #050;
 }
 
+h3 {
+    font-size: 2rem;
+    line-height: 100%;
+    color: #050;
+}
+
 a {
     color: darkgreen;
 }

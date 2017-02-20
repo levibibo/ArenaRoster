@@ -8,7 +8,6 @@
 @if (User.Identity.IsAuthenticated)
 {
     <h1>@ViewBag.User.Name Account Settings</h1>
-    <hr />
     <div class="row">
         <div class="col s12 center" id="account-buttons">
             @using (Html.BeginForm("LogOff", "Account"))
@@ -19,6 +18,7 @@
             @Html.ActionLink("Edit Account Information", "Edit")
         </div>
     </div>
+    <hr />
     <h2>My Teams</h2>
     <hr />
     <div class="row">
