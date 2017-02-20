@@ -8,38 +8,44 @@
 <h1>@Model.Name</h1>
 <div class="row">
     <div class="col s12 center" id="account-buttons">
-        @Html.ActionLink("Add Player", "AddPlayer", "Teams", Model.Id)
+        @Html.ActionLink("Add Player", "AddPlayer", "Teams", new { id = Model.Id })
         &nbsp;|&nbsp;
-        @Html.ActionLink("Remove Player", "RemovePlayer", "Teams", Model.Id)
+        @Html.ActionLink("Remove Player", "RemovePlayer", "Teams", new { id = Model.Id })
         &nbsp;|&nbsp;
-        @Html.ActionLink("Add Game", "AddGame", "Teams", Model.Id)
+        @Html.ActionLink("Add Game", "AddGame", "Teams", new { id = Model.Id })
     </div>
 </div>
 <hr />
 
 <h2>Team Roster</h2>
 <div class="row">
-    <div class="col s4">
+    <div class="col s3">
         <h3>Name</h3>
     </div>
-    <div class="col s4">
+    <div class="col s3">
         <h3>Email</h3>
     </div>
-    <div class="col s4">
+    <div class="col s3">
         <h3>Phone</h3>
     </div>
+    <div class="col s3">
+        <h3>Preferred Position</h3>
+    </div>
 </div>
-<div class="row">
     @foreach (ApplicationUser teammate in ViewBag.Roster)
     {
-        <div class="col s4">
-            <p>@teammate.Name</p>
-        </div>
-        <div class="col s4">
-            <p><a href="mailto:@teammate.Email">@teammate.Email</a></p>
-        </div>
-        <div class="col s4">
-            <p><a href="tel:@teammate.PhoneNumber">@teammate.PhoneNumber</a></p>
+        <div class="row">
+            <div class="col s3">
+                <p>@teammate.Name</p>
+            </div>
+            <div class="col s3">
+                <p><a href="mailto:@teammate.Email">@teammate.Email</a></p>
+            </div>
+            <div class="col s3">
+                <p><a href="tel:@teammate.PhoneNumber">@teammate.PhoneNumber</a></p>
+            </div>
+            <div class="col s3">
+                <p>@teammate.Position</p>
+            </div>
         </div>
     }
-</div>

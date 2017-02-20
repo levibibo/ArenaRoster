@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = $"{ViewBag.Team.Name} - Add Player";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add a teamate</h1>
+<hr />
+<form method="post" asp-action="AddPlayer" asp-controller="Teams">
+    <div class="input-field">
+        <label for="email">User's email address</label>
+        <input class="validated" name="email" id="email" type="text" />
+    </div>
+    <input class="btn blue" type="submit" value="Add Teammate" />
+</form>

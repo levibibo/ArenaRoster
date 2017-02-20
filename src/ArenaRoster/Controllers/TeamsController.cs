@@ -47,6 +47,39 @@ namespace ArenaRoster.Controllers
             return RedirectToAction("Details", new { id = newTeam.Id });
         }
 
+        public IActionResult AddPlayer(int id)
+        {
+            ViewBag.Team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddPlayer(int id, string email)
+        {
+            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            ApplicationUser user = _db.Users.FirstOrDefault(u => u.Email == email);
+            try
+            {
+                PlayerTeam newTeammate = new PlayerTeam() { };
+                newTeammate.AppUser = user;
+                newTeammate.Team = team;
+                _db.PlayersTeams.Add(newTeammate);
+                _db.SaveChanges();
+                return RedirectToAction("Details", new { id = team.Id });
+            }
+            catch
+            {
+                //IdentityResult result = await _userManager.CreateAsync(user, "Password");
+                //user = _db.Users.FirstOrDefault(u => u.Email == email);
+                //PlayerTeam newTeammate = new PlayerTeam() { };
+                //newTeammate.AppUser = user;
+                //newTeammate.Team = team;
+                //_db.PlayersTeams.Add(newTeammate);
+                //_db.SaveChanges();
+                ViewBag.Team = team;
+                return View();
+            }
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
