@@ -238,7 +238,7 @@ namespace ArenaRoster.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Availability",
+                name: "Availabilities",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -249,15 +249,15 @@ namespace ArenaRoster.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Availability", x => x.Id);
+                    table.PrimaryKey("PK_Availabilities", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Availability_Games_GameId",
+                        name: "FK_Availabilities_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Availability_AspNetUsers_UserId",
+                        name: "FK_Availabilities_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -281,13 +281,13 @@ namespace ArenaRoster.Migrations
                 column: "PositionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Availability_GameId",
-                table: "Availability",
+                name: "IX_Availabilities_GameId",
+                table: "Availabilities",
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Availability_UserId",
-                table: "Availability",
+                name: "IX_Availabilities_UserId",
+                table: "Availabilities",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -344,7 +344,7 @@ namespace ArenaRoster.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Availability");
+                name: "Availabilities");
 
             migrationBuilder.DropTable(
                 name: "PlayersTeams");

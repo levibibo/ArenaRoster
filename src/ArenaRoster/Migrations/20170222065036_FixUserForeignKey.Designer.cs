@@ -8,8 +8,8 @@ using ArenaRoster.Models;
 namespace ArenaRoster.Migrations
 {
     [DbContext(typeof(ArenaRosterDbContext))]
-    [Migration("20170218224812_Initial")]
-    partial class Initial
+    [Migration("20170222065036_FixUserForeignKey")]
+    partial class FixUserForeignKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,19 +79,19 @@ namespace ArenaRoster.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AppUserId");
+
                     b.Property<bool>("Available");
 
                     b.Property<int?>("GameId");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("GameId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Availability");
+                    b.ToTable("Availabilities");
                 });
 
             modelBuilder.Entity("ArenaRoster.Models.Game", b =>
@@ -274,13 +274,13 @@ namespace ArenaRoster.Migrations
 
             modelBuilder.Entity("ArenaRoster.Models.Availability", b =>
                 {
+                    b.HasOne("ArenaRoster.Models.ApplicationUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("ArenaRoster.Models.Game", "Game")
                         .WithMany("AvailablePlayers")
                         .HasForeignKey("GameId");
-
-                    b.HasOne("ArenaRoster.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("ArenaRoster.Models.Game", b =>
