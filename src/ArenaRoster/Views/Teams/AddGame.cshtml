@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = $"{ViewBag.Team.Name} - Add Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add a game</h1>
+<hr />
+<form method="post" asp-action="AddGame" asp-controller="Teams">
+        <div class="input-field">
+            @*<label for="location">Location</label>*@
+            <input class="validated" name="location" id="location" type="text"  required/>
+        </div>
+        <div class="input-field">
+            @*<label for="date">Game Date</label>*@
+            <input class="validated datepicker" name="date" id="date" type="date"  required/>
+        </div>
+        <div class="input-field">
+            @*<label for="time">Game Time</label>*@
+            <input class="validated" name="time" id="time" type="time" value="18:00" required/>
+        </div>
+        <input class="btn blue" type="submit" value="Add Game" />
+</form>

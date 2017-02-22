@@ -5,53 +5,82 @@
 @using ArenaRoster.Models
 @model List<Game>
 
-<h1>@ViewBag.Team.Name</h1>
+<h1><a href="/Teams/Details/@ViewBag.Team.Id">@ViewBag.Team.Name</a></h1>
 <hr />
 
 <h4>Team Schedule</h4>
 <div class="row">
-    <div class="col s4">
+    <div class="col s3">
         <h5>Date</h5>
     </div>
-    <div class="col s4">
+    <div class="col s3">
         <h5>Time</h5>
     </div>
-    <div class="col s4">
-        <h5>Committed Players</h5>
+    <div class="col s3">
+        <h5>Location</h5>
+    </div>
+    <div class="col s3">
+        <h5>Available Players</h5>
     </div>
 </div>
+<ul class="collapsible popout" data-collapsible="accordion">
     @foreach (Game game in Model)
     {
-        <div class="row">
-            <div class="col s12 m6">
-                <p>@game.Date</p>
+        string minutes = "";
+        if (game.Date.Minute < 10)
+        {
+            minutes = "0" + game.Date.Minute.ToString();
+        }
+        else
+        {
+            minutes = game.Date.Minute.ToString();
+        }
+        string time = (game.Date.Hour % 12).ToString() + ":" + minutes;
+        <li>
+            <div class="collapsible-header row">
+                <div class="col s12 m3">
+                    <p>@game.Date.Month / @game.Date.Day / @game.Date.Year</p>
+                </div>
+                <div class="col s12 m3">
+                    <p>@time</p>
+                </div>
+                <div class="col s12 m3">
+                    <p>@game.Location</p>
+                </div>
+                <div class="col s12 m3">
+                    <p>@game.AvailablePlayers.Count</p>
+                </div>
             </div>
-            <div class="col s12 m6">
-                <p>@game.Location</p>
-            </div>
-        </div>
-        <div class="row">
-            @foreach (Availability teammate in game.AvailablePlayers)
-            {
-                @foreach (ApplicationUser user in ViewBag.Roster)
+            <div class="collapsible-body row">
+                @foreach (Availability teammate in game.AvailablePlayers)
                 {
-                    @if (user == teammate.User)
-                    {
-                        <div class="col s12">
-                            <p>
-                                @user.Name - 
-                                @if (teammate.Available)
-                                {
-                                    <span class="green">Available</span>
-                                }
-                                else
-                                {
-                                    <span class="red">Not Available</span>
-                                }
-                            </p>
-                        </div>
-                    }
+                    <div class="col s12 m6">
+                        <span class="col s6">@teammate.AppUser.Name</span>
+                        @if (teammate.AppUser.UserName == User.Identity.Name)
+                        {
+                            <div class="switch col s6">
+                                <label>
+                                    Unavailable
+                                    <input type="checkbox">
+                                    <span class="lever" value="@teammate.Available"></span>
+                                    Available
+                                </label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="switch col s6">
+                                <label>
+                                    Unavailable
+                                    <input disabled type="checkbox">
+                                    <span class="lever" value="@teammate.Available"></span>
+                                    Available
+                                </label>
+                            </div>
+                        }
+                    </div>
                 }
-            }
-        </div>
+            </div>
+        </li>
     }
+</ul>

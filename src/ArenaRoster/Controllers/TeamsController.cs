@@ -102,16 +102,72 @@ namespace ArenaRoster.Controllers
         {
             Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
             ViewBag.Team = team;
-            ViewBag.Roster = _db.PlayersTeams
-                .Include(pt => pt.Team)
-                .Where(pt => pt.Team == team)
-                .Select(pt => pt.AppUser)
-                .ToList();
+            //ViewBag.Roster = _db.PlayersTeams
+            //    .Include(pt => pt.Team)
+            //    .Where(pt => pt.Team == team)
+            //    .Select(pt => pt.AppUser)
+            //    .ToList();
             List<Game> Schedule = _db.Games
                 .Include(g => g.AvailablePlayers)
+                    .ThenInclude(a => a.AppUser)
                 .Where(g => g.Team == team)
+                .OrderBy(g => g.Date)
                 .ToList();
             return View(Schedule);
+        }
+
+        public IActionResult AddGame(int id)
+        {
+            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            ViewBag.Team = team;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddGame(int id, string location, string date, string time)
+        {
+            //Date
+            string[] dateArray = date.Split('-');
+            string[] timeArray = time.Split(':');
+            DateTime newDate = new DateTime(
+                int.Parse(dateArray[0]),
+                int.Parse(dateArray[1]),
+                int.Parse(dateArray[2]),
+                int.Parse(timeArray[0]),
+                int.Parse(timeArray[1]),
+                0);
+
+            //Team
+            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            ViewBag.Team = team;
+
+            //Game
+            Game game = new Game();
+            game.Location = location;
+            game.Date = newDate;
+            game.Team = team;
+            _db.Games.Add(game);
+            _db.SaveChanges();
+
+            //Roster
+            List<ApplicationUser> roster = _db.PlayersTeams
+                .Include(pt => pt.AppUser)
+                .Where(pt => pt.TeamId == team.Id)
+                .Select(pt => pt.AppUser)
+                .ToList();
+
+            //Availability
+            foreach(ApplicationUser teammate in roster)
+            {
+                Availability newTeammate = new Availability() { };
+                newTeammate.AppUser = teammate;
+                newTeammate.Game = game;
+                newTeammate.Available = true;
+                _db.Availabilities.Add(newTeammate);
+                _db.SaveChanges();
+            }
+
+            return RedirectToAction("Details", new { id = team.Id });
         }
 
         public IActionResult Admin(int id)

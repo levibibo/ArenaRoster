@@ -55,6 +55,11 @@ a:hover {
     color: lightgreen;
 }
 
+.game-row {
+    margin: 0px;
+    padding: 0px;
+}
+
 #account-buttons {
     display: flex;
     justify-content: center;
