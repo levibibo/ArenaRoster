@@ -92,11 +92,6 @@ namespace ArenaRoster.Controllers
         {
             Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
             ViewBag.Team = team;
-            //ViewBag.Roster = _db.PlayersTeams
-            //    .Include(pt => pt.Team)
-            //    .Where(pt => pt.Team == team)
-            //    .Select(pt => pt.AppUser)
-            //    .ToList();
             List<Game> Schedule = _db.Games
                 .Include(g => g.AvailablePlayers)
                     .ThenInclude(a => a.AppUser)

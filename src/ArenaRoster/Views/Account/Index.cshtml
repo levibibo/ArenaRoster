@@ -3,38 +3,40 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using ArenaRoster.Models
-@model List<Team>
+@model ApplicationUser
+
+<script>
+    $(function () {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetTeams")',
+            success: function (result) {
+                $("#user-teams").html(result);
+            },
+            error: function (result) {
+                console.log(result);
+            }
+        })
+    })
+</script>
 
 @if (User.Identity.IsAuthenticated)
 {
-    <h1>@ViewBag.User.Name Account Settings</h1>
+    <h1>@Model.Name Account Settings</h1>
     <div class="row">
         <div class="col s12 center" id="account-buttons">
             @using (Html.BeginForm("LogOff", "Account"))
             {
                 <input type="submit" class="not-button" value="Log out" />
             }
-            &nbsp;|&nbsp; 
+            &nbsp;|&nbsp;
             @Html.ActionLink("Edit Account Information", "Edit")
         </div>
     </div>
     <hr />
     <h2>My Teams</h2>
     <hr />
-    <div class="row">
-        @foreach(Team team in Model)
-        {
-            <div class="col s12 m4">
-                <a href="/Teams/Details/@team.Id">
-                    <div class="card hoverable green lighten-2">
-                        <div class="card-content">
-                            <p class="card-title center">@team.Name</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        }
-    </div>
+    <div class="row" id="user-teams"></div>
 }
 else
 {
