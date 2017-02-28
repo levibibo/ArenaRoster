@@ -9,19 +9,22 @@
 
 <h1>Register a new user</h1>
 <hr />
-@using (Html.BeginForm("Register", "Account", FormMethod.Post))
-{
-    @Html.LabelFor(m => m.Name)
-    @Html.TextBoxFor(m => m.Name)
-
-    @Html.LabelFor(m => m.Email)
-    @Html.TextBoxFor(m => m.Email)
-
-    @Html.LabelFor(m => m.Password)
-    @Html.PasswordFor(m => m.Password)
-
-    @Html.LabelFor(m => m.ConfirmPassword)
-    @Html.PasswordFor(m => m.ConfirmPassword)
-
+<form asp-controller="Account" asp-action="Register" method="post">
+    <div class="input-field">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" id="Name" class="validated" />
+    </div>
+    <div class="input-field">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" id="Email" class="validated" />
+    </div>
+    <div class="input-field">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" id="Password" type="password" class="validated" />
+    </div>
+    <div class="input-field">
+        <label for="ConfirmPassword">Confirm Password</label>
+        <input asp-for="ConfirmPassword" id="ConfirmPassword" type="password" name="ConfirmPassword" class="validated" />
+    </div>
     <input class="btn green" type="submit" value="Register" />
-}
+</form>

@@ -86,6 +86,20 @@ namespace ArenaRoster.Controllers
             }
         }
 
+        public async Task<IActionResult> Edit()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            return View(user);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ApplicationUser user)
+        {
+            _db.Entry(user).State = EntityState.Modified;
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public async Task<IActionResult> LogOff()
         {

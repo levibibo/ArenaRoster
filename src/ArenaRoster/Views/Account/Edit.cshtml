@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using ArenaRoster.Models
+
+@model ApplicationUser
+
+<h1>Register a new user</h1>
+<hr />
+<form asp-controller="Account" asp-action="Edit" method="post">
+    <div class="input-field">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" id="Name" value="@Model.Name" class="validated" />
+    </div>
+    <div class="input-field">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" id="Email" value="@Model.Email" class="validated" />
+    </div>
+    <input class="btn green" type="submit" value="Save Changes" />
+</form>
