@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Edit Account";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -7,9 +7,10 @@
 
 @model ApplicationUser
 
-<h1>Register a new user</h1>
+<h1>Change your user settings</h1>
 <hr />
-<form asp-controller="Account" asp-action="Edit" method="post">
+<form asp-controller="Account" asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" value="@Model.Id"/>
     <div class="input-field">
         <label asp-for="Name">Name</label>
         <input asp-for="Name" id="Name" value="@Model.Name" class="validated" />
@@ -17,6 +18,15 @@
     <div class="input-field">
         <label asp-for="Email">Email</label>
         <input asp-for="Email" id="Email" value="@Model.Email" class="validated" />
+    </div>
+    <div class="file-field input-field">
+        <div class="btn">
+            <span>Player Image</span>
+            <input name="Image" type="file">
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+        </div>
     </div>
     <input class="btn green" type="submit" value="Save Changes" />
 </form>

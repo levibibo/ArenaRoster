@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,9 @@ using ArenaRoster.Models;
 using Microsoft.AspNetCore.Identity;
 using ArenaRoster.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
+using MailKit;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace ArenaRoster.Controllers
 {
@@ -74,7 +75,7 @@ namespace ArenaRoster.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            
+
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
             if (result.Succeeded)
             {
@@ -93,9 +94,23 @@ namespace ArenaRoster.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(ApplicationUser user)
+        public async Task<IActionResult> Edit(ApplicationUser user, IFormFile Image)
         {
-            _db.Entry(user).State = EntityState.Modified;
+            //REFACTOR
+            ApplicationUser thisUser = await _userManager.GetUserAsync(User);
+            if (Image != null)
+            {
+                using (Stream filestream = Image.OpenReadStream())
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    filestream.CopyTo(ms);
+                    thisUser.Image = ms.ToArray();
+                }
+            }
+            thisUser.Name = user.Name;
+            thisUser.Email = user.Email;
+            thisUser.NormalizedEmail = thisUser.NormalizedUserName = user.Email.ToUpper();
+            _db.Entry(thisUser).State = EntityState.Modified;
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
