@@ -109,28 +109,23 @@ namespace ArenaRoster.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddGame(int id, string location, string date, string time)
+        public IActionResult AddGame(int teamId, Game game, string date, string time)
         {
             //Date
             string[] dateArray = date.Split('-');
             string[] timeArray = time.Split(':');
-            DateTime newDate = new DateTime(
-                int.Parse(dateArray[0]),
-                int.Parse(dateArray[1]),
-                int.Parse(dateArray[2]),
-                int.Parse(timeArray[0]),
-                int.Parse(timeArray[1]),
-                0);
+            string dateTime = $"{date} {time}";
+            DateTime newDate = Convert.ToDateTime(dateTime);
+            Debug.WriteLine(newDate.ToString());
 
             //Team
-            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            Team team = _db.Teams.FirstOrDefault(t => t.Id == teamId);
             ViewBag.Team = team;
 
             //Game
-            Game game = new Game();
-            game.Location = location;
             game.Date = newDate;
             game.Team = team;
+            game.Id = 0; //Game Id is being set to 1 and causing EF to try to insert an ID into the Identity field
             _db.Games.Add(game);
             _db.SaveChanges();
 
