@@ -59,8 +59,10 @@ namespace ArenaRoster.Controllers
             ApplicationUser user = _db.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
+                string password = ApplicationUser.GeneratePassword();
                 user = new ApplicationUser() { Email = email, UserName = email };
-                IdentityResult result = await _userManager.CreateAsync(user, "Password");
+                IdentityResult result = await _userManager.CreateAsync(user, password);
+                MailgunApi.SendMailgunMessage(email, team.Name, password);
             }
             PlayerTeam newTeammate = new PlayerTeam() { };
             newTeammate.AppUser = user;
