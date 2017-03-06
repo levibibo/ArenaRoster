@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = $"{ViewBag.Team.Name} - Remove Player";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using ArenaRoster.Models
+@model PlayerTeam
+
+<script>
+    $(function () {
+        $('select').material_select();
+    })
+</script>
+
+<h1>Remove teammate</h1>
+<hr />
+<form method="post" asp-action="RemovePlayer" asp-controller="Teams">
+    <input type="hidden" name="id" value="@ViewBag.Team.Id" />
+    <select name="teammateId">
+        <option selected disabled>Select teammate to remove...</option>
+        @foreach (PlayerTeam teammate in ViewBag.Roster)
+        {
+            <option value="@teammate.Id">@teammate.AppUser.Name (@teammate.AppUser.Email)</option>
+        }
+    </select>
+    <input class="btn blue" type="submit" value="Remove Teammate" />
+</form>

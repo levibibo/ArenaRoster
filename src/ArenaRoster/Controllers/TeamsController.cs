@@ -72,6 +72,24 @@ namespace ArenaRoster.Controllers
             return RedirectToAction("Details", new { id = team.Id });
         }
 
+        public IActionResult RemovePlayer(int id)
+        {
+            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            ViewBag.Team = team;
+            ViewBag.roster = _db.PlayersTeams.Include(pt => pt.AppUser)
+                .Where(pt => pt.Team == team).ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RemovePlayer(int id, int teammateId)
+        {
+            PlayerTeam player = _db.PlayersTeams.FirstOrDefault(pt => pt.Id == teammateId);
+            _db.PlayersTeams.Remove(player);
+            _db.SaveChanges();
+            return RedirectToAction("Details", new { id = id });
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
