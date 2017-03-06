@@ -121,6 +121,39 @@ namespace ArenaRoster.Controllers
             return View(Schedule);
         }
 
+        [HttpPatch]
+        public IActionResult UpdateAvailability(int id, int teammate, bool playerAvailability)
+        {
+            //
+            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            Availability player = _db.Availabilities.Include(p => p.Game)
+                .FirstOrDefault(pt => pt.Id == teammate);
+
+            //
+            player.Available = playerAvailability;
+            _db.Entry(player).State = EntityState.Modified;
+            _db.SaveChanges();
+
+            //
+            Game game = _db.Games
+                .Include(g => g.AvailablePlayers)
+                    .ThenInclude(a => a.AppUser)
+                .Where(g => g.Team == team)
+                .OrderBy(g => g.Date)
+                .FirstOrDefault(g => g.Id == player.Game.Id);
+
+            int availablePlayers = 0;
+            foreach (Availability availablePlayer in game.AvailablePlayers)
+            {
+                if (availablePlayer.Available)
+                {
+                    availablePlayers++;
+                }
+            }
+
+            return Content(availablePlayers.ToString());
+        }
+
         public IActionResult AddGame(int id)
         {
             Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
