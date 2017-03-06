@@ -109,6 +109,7 @@ namespace ArenaRoster.Controllers
             }
             thisUser.Name = user.Name;
             thisUser.Email = user.Email;
+            thisUser.PhoneNumber = user.PhoneNumber;
             thisUser.NormalizedEmail = thisUser.NormalizedUserName = user.Email.ToUpper();
             _db.Entry(thisUser).State = EntityState.Modified;
             _db.SaveChanges();

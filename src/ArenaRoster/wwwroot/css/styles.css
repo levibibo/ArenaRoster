@@ -87,3 +87,15 @@ a:hover {
     vertical-align: middle;
     object-fit: scale-down;
 }
+
+.name-image {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.name-image .player-image {
+    height: 70px;
+    width: 70px;
+    margin-left: 0px;
+    margin-right: 20px;
+}

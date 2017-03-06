@@ -14,7 +14,7 @@
                 $("#user-teams").html(result);
             },
             error: function (result) {
-                $("#user-teams").html("We ran into an error getting your teams.  Please try again later.")
+                $("#user-teams").html("We ran into a problem getting your teams.  Please try again later.")
                 console.log(result);
             }
         })
@@ -29,7 +29,7 @@
         {
             string playerImage = "";
             playerImage = String.Format($"data:image/gif;base64,{Convert.ToBase64String(Model.Image)}");
-            <div class="player-image center">
+            <div class="player-image">
                 <img src="@playerImage" />
             </div>
         }
