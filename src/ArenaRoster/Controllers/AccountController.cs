@@ -38,10 +38,25 @@ namespace ArenaRoster.Controllers
             ViewBag.User = user;
             if (user != null)
             {
-                teams = _db.PlayersTeams.Include(pt => pt.Team)
-                    .Where(pt => pt.AppUser == user)
-                    .Select(pt => pt.Team)
+                teams = _db.Teams.Include(t => t.Roster)
+                        .ThenInclude(r => r.AppUser)
+                    .Include(t => t.TeamManager)
                     .ToList();
+            }
+            foreach (Team team in teams.ToList())
+            {
+                bool playerOnTeam = false;
+                foreach (PlayerTeam playerTeam in team.Roster)
+                {
+                    if (playerTeam.AppUser.Id == user.Id)
+                    {
+                        playerOnTeam = true;
+                    }
+                }
+                if (!playerOnTeam)
+                {
+                    teams.Remove(team);
+                }
             }
             return View(teams);
         }

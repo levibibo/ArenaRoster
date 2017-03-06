@@ -39,6 +39,7 @@ namespace ArenaRoster.Controllers
         public async Task<IActionResult> Create(Team newTeam)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
+            newTeam.TeamManager = user;
             _db.Teams.Add(newTeam);
             _db.SaveChanges();
             PlayerTeam newPlayerTeam = new PlayerTeam() { AppUser = user, Team = newTeam };
@@ -93,7 +94,8 @@ namespace ArenaRoster.Controllers
         public async Task<IActionResult> Details(int id)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            Team team = _db.Teams.Include(t => t.TeamManager)
+                .FirstOrDefault(t => t.Id == id);
             ViewBag.Roster = _db.PlayersTeams.Include(pt => pt.AppUser)
                 .Where(pt => pt.Team == team)
                 .Select(pt => pt.AppUser)

@@ -8,9 +8,10 @@ using ArenaRoster.Models;
 namespace ArenaRoster.Migrations
 {
     [DbContext(typeof(ArenaRosterDbContext))]
-    partial class ArenaRosterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170306211959_AddTeamManager")]
+    partial class AddTeamManager
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")

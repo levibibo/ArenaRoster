@@ -1,4 +1,5 @@
 ﻿@using ArenaRoster.Models
+@model List<Team>
 
 @if (Model.Count > 0)
 {
@@ -6,11 +7,22 @@
     {
         <div class="col s12 m4">
             <a href="/Teams/Details/@team.Id">
-                <div class="card hoverable green lighten-2">
-                    <div class="card-content">
-                        <p class="card-title center">@team.Name</p>
+                @if (team.TeamManager.UserName == User.Identity.Name)
+                {
+                    <div class="card hoverable blue lighten-2">
+                        <div class="card-content">
+                            <p class="card-title center">@team.Name</p>
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="card hoverable green lighten-2">
+                        <div class="card-content">
+                            <p class="card-title center">@team.Name</p>
+                        </div>
+                    </div>
+                }
             </a>
         </div>
     }

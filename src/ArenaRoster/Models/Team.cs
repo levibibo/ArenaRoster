@@ -12,6 +12,7 @@ namespace ArenaRoster.Models
     {
         [Key]
         public int Id { get; set; }
+        public virtual ApplicationUser TeamManager { get; set; }
         public virtual List<PlayerTeam> Roster { get; set; }
         public virtual List<Game> Schedule { get; set; }
         public string Name { get; set; }
