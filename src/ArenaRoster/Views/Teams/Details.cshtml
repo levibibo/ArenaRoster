@@ -6,17 +6,20 @@
 @model Team
 
 <h1>@Model.Name</h1>
-<div class="row">
-    <div class="col s12 center" id="account-buttons">
-        @Html.ActionLink("Add Player", "AddPlayer", "Teams", new { id = Model.Id })
-        &nbsp;|&nbsp;
-        @Html.ActionLink("Remove Player", "RemovePlayer", "Teams", new { id = Model.Id })
-        &nbsp;|&nbsp;
-        @Html.ActionLink("Add Game", "AddGame", "Teams", new { id = Model.Id })
-        &nbsp;|&nbsp;
-        @Html.ActionLink("Schedule", "Schedule", "Teams", new { id = Model.Id })
+@if (Model.TeamManager.UserName == User.Identity.Name)
+{
+    <div class="row">
+        <div class="col s12 center" id="account-buttons">
+            @Html.ActionLink("Add Player", "AddPlayer", "Teams", new { id = Model.Id })
+            &nbsp;|&nbsp;
+            @Html.ActionLink("Remove Player", "RemovePlayer", "Teams", new { id = Model.Id })
+            &nbsp;|&nbsp;
+            @Html.ActionLink("Add Game", "AddGame", "Teams", new { id = Model.Id })
+            &nbsp;|&nbsp;
+            @Html.ActionLink("Schedule", "Schedule", "Teams", new { id = Model.Id })
+        </div>
     </div>
-</div>
+}
 <hr />
 
 <h2>Team Roster</h2>

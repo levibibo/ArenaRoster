@@ -7,20 +7,28 @@
 
 <h1>Add a game</h1>
 <hr />
-<form method="post" asp-action="AddGame" asp-controller="Teams">
+@if (ViewBag.Team.TeamManager.UserName == User.Identity.Name)
+{
+    <form method="post" asp-action="AddGame" asp-controller="Teams">
 
-    <input type="hidden" value="@ViewBag.Team.Id" name="teamId" />
-    <div class="input-field">
-        <label asp-for="Location" class="active">Location</label>
-        <input class="validated" asp-for="Location" id="location" type="text" required />
-    </div>
-    <div class="input-field">
-        <label for="date" class="active">Game Date</label>
-        <input class="validated datepicker" name="date" id="date" type="date" required />
-    </div>
-    <div class="input-field">
-        <label for="time" class="active">Game Time</label>
-        <input class="validated" name="time" id="time" type="time" value="18:00" required />
-    </div>
-    <input class="btn green" type="submit" value="Add Game" />
-</form>
+        <input type="hidden" value="@ViewBag.Team.Id" name="teamId" />
+        <div class="input-field">
+            <label asp-for="Location" class="active">Location</label>
+            <input class="validated" asp-for="Location" id="location" type="text" required />
+        </div>
+        <div class="input-field">
+            <label for="date" class="active">Game Date</label>
+            <input class="validated datepicker" name="date" id="date" type="date" required />
+        </div>
+        <div class="input-field">
+            <label for="time" class="active">Game Time</label>
+            <input class="validated" name="time" id="time" type="time" value="18:00" required />
+        </div>
+        <input class="btn green" type="submit" value="Add Game" />
+    </form>
+}
+else
+{
+    <h2>You are not this team's manager.</h2>
+    <a href="/Teams/Details/@ViewBag.Team.Id">Return to the team page.</a>
+}

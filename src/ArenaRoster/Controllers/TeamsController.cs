@@ -96,6 +96,10 @@ namespace ArenaRoster.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(User);
             Team team = _db.Teams.Include(t => t.TeamManager)
                 .FirstOrDefault(t => t.Id == id);
+            if (team == null)
+            {
+                return RedirectToAction("NotValidTeam");
+            }
             ViewBag.Roster = _db.PlayersTeams.Include(pt => pt.AppUser)
                 .Where(pt => pt.Team == team)
                 .Select(pt => pt.AppUser)
