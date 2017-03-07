@@ -10,7 +10,7 @@ namespace RecTeam.Models
 {
     public class MailgunApi
     {
-        public static void SendMailgunMessage(string recipient, string teamName, string password)
+        public static void SendNewUserEmail(string recipient, string teamName, string password)
         {
             RestClient client = new RestClient("https://api.mailgun.net/v3");
             client.Authenticator =
@@ -21,7 +21,29 @@ namespace RecTeam.Models
             request.AddParameter("from", $"RecTeam <NewUsers@{EnvironmentVariables.MailgunDomain}>");
             request.AddParameter("to", $"{recipient}");
             request.AddParameter("subject", $"Invitation to join team {teamName}");
-            request.AddParameter("text", $"You have been invited to join the team {teamName} on RecTeam.azurewebsites.net.  Please sign in using the following credentials:\nEmail: {recipient}\nPassword: {password}");
+            request.AddParameter("text", $"You have been invited to join the team {teamName} on RecTeam.net.  Please sign in using the following credentials:\nEmail: {recipient}\nPassword: {password}");
+            request.Method = Method.POST;
+
+            RestResponse response = new RestResponse();
+
+            Task.Run(async () =>
+            {
+                response = await GetResponseContentAsync(client, request) as RestResponse;
+            }).Wait();
+        }
+
+        public static void SendNewTeammateEmail(string recipient, string teamName)
+        {
+            RestClient client = new RestClient("https://api.mailgun.net/v3");
+            client.Authenticator =
+                new HttpBasicAuthenticator("api", $"{EnvironmentVariables.MailgunKey}");
+            RestRequest request = new RestRequest();
+            request.AddParameter("domain", $"{EnvironmentVariables.MailgunDomain}", ParameterType.UrlSegment);
+            request.Resource = "{domain}/messages";
+            request.AddParameter("from", $"RecTeam <NewUsers@{EnvironmentVariables.MailgunDomain}>");
+            request.AddParameter("to", $"{recipient}");
+            request.AddParameter("subject", $"Invitation to join team {teamName}");
+            request.AddParameter("text", $"You have been invited to join the team {teamName} on RecTeam.net.  Please log in with the following email address: {recipient}.");
             request.Method = Method.POST;
 
             RestResponse response = new RestResponse();
