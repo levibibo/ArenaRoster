@@ -74,7 +74,7 @@ namespace ArenaRoster.Controllers
             if (result.Succeeded)
             {
                 Microsoft.AspNetCore.Identity.SignInResult loginResult = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit");
             }
             else
             {

@@ -65,7 +65,7 @@ namespace ArenaRoster.Controllers
             if (user == null)
             {
                 string password = ApplicationUser.GeneratePassword();
-                user = new ApplicationUser() { Email = email, UserName = email };
+                user = new ApplicationUser() { Email = email, UserName = email, Name = email.Split('@')[0] };
                 IdentityResult result = await _userManager.CreateAsync(user, password);
                 MailgunApi.SendMailgunMessage(email, team.Name, password);
             }
