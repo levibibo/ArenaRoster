@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ArenaRoster.ViewModels
+namespace RecTeam.ViewModels
 {
     public class RegisterViewModel
     {

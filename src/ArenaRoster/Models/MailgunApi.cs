@@ -6,7 +6,7 @@ using RestSharp;
 using System.Diagnostics;
 using RestSharp.Authenticators;
 
-namespace ArenaRoster.Models
+namespace RecTeam.Models
 {
     public class MailgunApi
     {
@@ -18,7 +18,7 @@ namespace ArenaRoster.Models
             RestRequest request = new RestRequest();
             request.AddParameter("domain", $"{EnvironmentVariables.MailgunDomain}", ParameterType.UrlSegment);
             request.Resource = "{domain}/messages";
-            request.AddParameter("from", $"ArenaRoster <mailgun@{EnvironmentVariables.MailgunDomain}>");
+            request.AddParameter("from", $"RecTeam <mailgun@{EnvironmentVariables.MailgunDomain}>");
             request.AddParameter("to", $"{recipient}");
             request.AddParameter("subject", $"Invitation to join team {teamName}");
             request.AddParameter("text", $"You have been invited to join the team {teamName} on [Domain Name Placeholder].  Please sign in using the following credentials:\nEmail: {recipient}\nPassword: {password}");

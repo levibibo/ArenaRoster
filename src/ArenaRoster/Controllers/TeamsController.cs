@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ArenaRoster.Models;
+using RecTeam.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 
-namespace ArenaRoster.Controllers
+namespace RecTeam.Controllers
 {
     public class TeamsController : Controller
     {
-        private readonly ArenaRosterDbContext _db;
+        private readonly RecTeamDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public TeamsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ArenaRosterDbContext db)
+        public TeamsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RecTeamDbContext db)
         {
             _db = db;
             _userManager = userManager;

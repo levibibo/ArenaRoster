@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ArenaRoster.Models
+namespace RecTeam.Models
 {
     [Table("Availabilities")]
     public class Availability

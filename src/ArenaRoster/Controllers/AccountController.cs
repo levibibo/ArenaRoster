@@ -2,23 +2,23 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ArenaRoster.Models;
+using RecTeam.Models;
 using Microsoft.AspNetCore.Identity;
-using ArenaRoster.ViewModels;
+using RecTeam.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using MailKit;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 
-namespace ArenaRoster.Controllers
+namespace RecTeam.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ArenaRosterDbContext _db;
+        private readonly RecTeamDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ArenaRosterDbContext db)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RecTeamDbContext db)
         {
             _db = db;
             _userManager = userManager;

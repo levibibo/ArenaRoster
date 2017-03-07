@@ -11,9 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using ArenaRoster.Models;
+using RecTeam.Models;
 
-namespace ArenaRoster
+namespace RecTeam
 {
     public class Startup
     {
@@ -31,7 +31,7 @@ namespace ArenaRoster
         {
             services.AddMvc();
             services.AddEntityFramework()
-                .AddDbContext<ArenaRosterDbContext>(options =>
+                .AddDbContext<RecTeamDbContext>(options =>
                     options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddIdentity<ApplicationUser, IdentityRole>(options => {
                 options.Password.RequireUppercase = false;
@@ -39,7 +39,7 @@ namespace ArenaRoster
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
             })
-                .AddEntityFrameworkStores<ArenaRosterDbContext>()
+                .AddEntityFrameworkStores<RecTeamDbContext>()
                 .AddDefaultTokenProviders();
         }
 
@@ -55,7 +55,7 @@ namespace ArenaRoster
             app.UseStaticFiles();
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                await context.Response.WriteAsync("<h1>Not a valid path.<h1><a href=\"/Home\">Click here to return to the site.</a>");
             });
         }
     }

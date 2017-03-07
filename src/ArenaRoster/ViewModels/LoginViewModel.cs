@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ArenaRoster.ViewModels
+namespace RecTeam.ViewModels
 {
     public class LoginViewModel
     {

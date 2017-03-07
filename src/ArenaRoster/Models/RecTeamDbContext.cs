@@ -6,11 +6,11 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace ArenaRoster.Models
+namespace RecTeam.Models
 {
-    public class ArenaRosterDbContext : IdentityDbContext<ApplicationUser>
+    public class RecTeamDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ArenaRosterDbContext(DbContextOptions options) : base(options)
+        public RecTeamDbContext(DbContextOptions options) : base(options)
         {
 
         }
@@ -22,7 +22,7 @@ namespace ArenaRoster.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ArenaRosterDb;integrated security=True");
+            options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=RecTeamDb;integrated security=True");
         }
     }
 }
