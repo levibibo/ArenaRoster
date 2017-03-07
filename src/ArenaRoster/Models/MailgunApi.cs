@@ -18,10 +18,10 @@ namespace RecTeam.Models
             RestRequest request = new RestRequest();
             request.AddParameter("domain", $"{EnvironmentVariables.MailgunDomain}", ParameterType.UrlSegment);
             request.Resource = "{domain}/messages";
-            request.AddParameter("from", $"RecTeam <mailgun@{EnvironmentVariables.MailgunDomain}>");
+            request.AddParameter("from", $"RecTeam <NewUsers@{EnvironmentVariables.MailgunDomain}>");
             request.AddParameter("to", $"{recipient}");
             request.AddParameter("subject", $"Invitation to join team {teamName}");
-            request.AddParameter("text", $"You have been invited to join the team {teamName} on [Domain Name Placeholder].  Please sign in using the following credentials:\nEmail: {recipient}\nPassword: {password}");
+            request.AddParameter("text", $"You have been invited to join the team {teamName} on RecTeam.azurewebsites.net.  Please sign in using the following credentials:\nEmail: {recipient}\nPassword: {password}");
             request.Method = Method.POST;
 
             RestResponse response = new RestResponse();
