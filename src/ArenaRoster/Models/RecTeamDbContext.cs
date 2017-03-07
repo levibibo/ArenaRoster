@@ -22,7 +22,7 @@ namespace RecTeam.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=RecTeamDb;integrated security=True");
+            options.UseSqlServer($@"Data Source=tcp:recteamdbserver.database.windows.net,1433;Initial Catalog=RecTeamDb;User Id={EnvironmentVariables.DbUserId};Password={EnvironmentVariables.DbPassword}");
         }
     }
 }

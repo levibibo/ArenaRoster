@@ -8,8 +8,8 @@ using RecTeam.Models;
 namespace ArenaRoster.Migrations
 {
     [DbContext(typeof(RecTeamDbContext))]
-    [Migration("20170307162103_DBChangeToRT")]
-    partial class DBChangeToRT
+    [Migration("20170307182221_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
