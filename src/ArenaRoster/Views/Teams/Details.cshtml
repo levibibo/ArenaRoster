@@ -11,12 +11,12 @@
         @if (Model.TeamManager.UserName == User.Identity.Name)
         {
             @Html.ActionLink("Add Player", "AddPlayer", "Teams", new { id = Model.Id })
-            &nbsp;| &nbsp;
+            <span>&nbsp;| &nbsp;</span>
             @Html.ActionLink("Remove Player", "RemovePlayer", "Teams", new { id = Model.Id })
-            &nbsp;| &nbsp;
+            <span>&nbsp;| &nbsp;</span>
             @Html.ActionLink("Add Game", "AddGame", "Teams", new { id = Model.Id })
-            &nbsp;| &nbsp;
-        }
+            <span>&nbsp;| &nbsp;</span>
+            }
         @Html.ActionLink("Schedule", "Schedule", "Teams", new { id = Model.Id })
     </div>
 </div>
