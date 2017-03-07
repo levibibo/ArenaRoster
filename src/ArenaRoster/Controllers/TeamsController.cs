@@ -58,6 +58,10 @@ namespace ArenaRoster.Controllers
         {
             Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
             ApplicationUser user = _db.Users.FirstOrDefault(u => u.Email == email);
+
+            //Create new user if the user doesn't exist
+            //Randomly generate password and email to registered email address
+            //Password is not stored in plain text on database
             if (user == null)
             {
                 string password = ApplicationUser.GeneratePassword();
@@ -65,11 +69,28 @@ namespace ArenaRoster.Controllers
                 IdentityResult result = await _userManager.CreateAsync(user, password);
                 MailgunApi.SendMailgunMessage(email, team.Name, password);
             }
+            //Add new user to team
             PlayerTeam newTeammate = new PlayerTeam() { };
             newTeammate.AppUser = user;
             newTeammate.Team = team;
             _db.PlayersTeams.Add(newTeammate);
             _db.SaveChanges();
+
+            //Add player as available to all future games
+            List<Game> games = _db.Games.Include(g => g.Team).ToList();
+            DateTime today = DateTime.Today;
+            foreach (Game game in games)
+            {
+                if (game.Date > today)
+                {
+                    _db.Availabilities.Add(new Availability()
+                    {
+                        AppUser = user,
+                        Game = game,
+                        Available = true
+                    });
+                }
+            }
             return RedirectToAction("Details", new { id = team.Id });
         }
 
@@ -104,7 +125,7 @@ namespace ArenaRoster.Controllers
                 .Where(pt => pt.Team == team)
                 .Select(pt => pt.AppUser)
                 .ToList();
-            foreach(ApplicationUser teammate in ViewBag.Roster)
+            foreach (ApplicationUser teammate in ViewBag.Roster)
             {
                 if (teammate == user)
                 {
@@ -116,7 +137,7 @@ namespace ArenaRoster.Controllers
 
         public IActionResult Schedule(int id)
         {
-            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            Team team = _db.Teams.Include(t => t.TeamManager).FirstOrDefault(t => t.Id == id);
             ViewBag.Team = team;
             List<Game> Schedule = _db.Games
                 .Include(g => g.AvailablePlayers)
@@ -162,7 +183,7 @@ namespace ArenaRoster.Controllers
 
         public IActionResult AddGame(int id)
         {
-            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            Team team = _db.Teams.Include(t => t.TeamManager).FirstOrDefault(t => t.Id == id);
             ViewBag.Team = team;
             return View();
         }
@@ -196,7 +217,7 @@ namespace ArenaRoster.Controllers
                 .ToList();
 
             //Availability
-            foreach(ApplicationUser teammate in roster)
+            foreach (ApplicationUser teammate in roster)
             {
                 Availability newTeammate = new Availability() { };
                 newTeammate.AppUser = teammate;
