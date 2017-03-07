@@ -99,3 +99,11 @@ a:hover {
     margin-left: 0px;
     margin-right: 20px;
 }
+
+a {
+	cursor: pointer;
+}
+
+#sidenav-overlay {
+	z-index: 1;
+}
