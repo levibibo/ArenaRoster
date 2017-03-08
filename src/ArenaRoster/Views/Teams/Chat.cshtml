@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = $"Roster - {Model.Name}";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using RecTeam.Models
+@model Team
+
+<h1><a href="/Teams/Details/@Model.Id">@Model.Name</a></h1>
+<hr />
+<h4>@Model.Name Chat</h4>

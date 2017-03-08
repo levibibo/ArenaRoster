@@ -234,6 +234,15 @@ namespace RecTeam.Controllers
             return RedirectToAction("Details", new { id = team.Id });
         }
 
+        public IActionResult Chat(int id)
+        {
+            Team team = _db.Teams
+                .Include(t => t.Roster)
+                    .ThenInclude(r => r.AppUser)
+                .FirstOrDefault(t => t.Id == id);
+            return View(team);
+        }
+
         public IActionResult Admin(int id)
         {
             Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
