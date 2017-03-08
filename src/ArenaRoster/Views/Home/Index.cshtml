@@ -5,20 +5,60 @@
 
 <script>
     $(function () {
+        $('.parallax').parallax();
         console.log("                     ___\n o__        o__     |   |\\ \n/|          /\\      |   |X\\ \n/ > o        <\\     |   |XX\\\n")
         //Very Important ASCII Art!
     })
 </script>
 
-<h1>Rec Team</h1>
+<div class="parallax-container">
+    <div class="parallax"><img src="~/img/banner.jpg"></div>
+</div>
+
+<h1>RecTeam.net</h1>
+<h4 class="center">Manage Your Rec Teams</h4>
 <hr />
-<p>Track schedules and availabilities for your rec teams.</p>
-@if (!User.Identity.IsAuthenticated)
+@if (User.Identity.IsAuthenticated)
 {
-    <p>Create an account, create a team, input your schedule, and invite your teammates to join.</p>
+    <p>@User.Identity.Name is signed in.</p>
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card hoverable">
+                <a asp-controller="Teams" asp-action="Create">
+                    <div class="card-content">
+                        <h3 class="center">Create a new Team.</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card hoverable">
+                <a asp-controller="Account" asp-action="Index">
+                    <div class="card-content">
+                        <h3 class="center">View your account details and team list.</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
 }
 else
 {
-    <p>Since you have an account, all you have to do is create a team, input your schedule, and invite your teammates to join.</p>
+    <h2>You aren't signed in.</h2>
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <h3><a asp-controller="Account" asp-action="Login">Login</a></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <h3><a asp-controller="Account" asp-action="Register">Register for a new account</a></h3>
+                </div>
+            </div>
+        </div>
+    </div>
 }
-<p>Edit your availability and everyone else on the team will be able to see it, helping you plan for substitutes.</p>

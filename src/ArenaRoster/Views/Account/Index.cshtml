@@ -25,6 +25,7 @@
 {
     <div class="row">
         <h1>@Model.Name Account Settings</h1>
+        
         @if (Model.Image != null)
         {
             string playerImage = "";
@@ -46,6 +47,18 @@
     </div>
     <hr />
     <h2>My Teams</h2>
+    <div class="row">
+        <div class="col s6">
+            <div class="card blue lighten-2">
+                <p class="center">Manager</p>
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="card green lighten-2">
+                <p class="center">Member</p>
+            </div>
+        </div>
+    </div>
     <hr />
     <div class="row" id="user-teams">Getting your teams...</div>
 }

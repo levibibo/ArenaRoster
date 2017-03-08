@@ -10,5 +10,4 @@
         selectMonths: true,
         selectYears: 15
     });
-
 });

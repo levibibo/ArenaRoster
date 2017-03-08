@@ -107,3 +107,7 @@ a {
 #sidenav-overlay {
 	z-index: 1;
 }
+
+.parallax-container {
+    height: 300px;
+}

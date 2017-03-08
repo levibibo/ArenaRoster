@@ -20,7 +20,7 @@
         <nav class="green darken-4">
             <div class="nav-wrapper">
                 <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
-                <a asp-controller="Home" asp-action="Index" class="brand-logo center">RecTeam</a>
+                <a asp-controller="Home" asp-action="Index" class="brand-logo center">RecTeam.Net</a>
                 <ul class="right hide-on-med-and-down">
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -37,7 +37,7 @@
     </div>
 
     <ul id="slide-out" class="side-nav">
-        <a asp-controller="Home" asp-action="Index" class="brand-logo center"><h1>RecTeam</h1></a>
+        <a asp-controller="Home" asp-action="Index" class="brand-logo center"><h1>RecTeam.Net</h1></a>
         @if (User.Identity.IsAuthenticated)
         {
             <li><a asp-controller="Teams" asp-action="Create">Add New Team</a></li>
