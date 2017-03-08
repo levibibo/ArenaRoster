@@ -9,20 +9,20 @@
 <hr />
 
 <h4>Team Schedule</h4>
-<div class="row">
-    <div class="col s4 m3">
+@*<div class="row">
+    <div class="col s4 m3 offset-s1 offset-m1 center">
         <h5>Date</h5>
     </div>
-    <div class="col s4 m3">
+    <div class="col s3 m2 center">
         <h5>Time</h5>
     </div>
-    <div class="col s4 m3">
+    <div class="col s4 m3 center">
         <h5>Location</h5>
     </div>
-    <div class="col m3 hide-on-small-only">
+    <div class="col m3 center hide-on-small-only">
         <h5>Available Players</h5>
     </div>
-</div>
+</div>*@
 <ul class="collapsible popout" data-collapsible="accordion">
     @foreach (Game game in Model)
     {
@@ -49,7 +49,7 @@
                     <p>@game.Location</p>
                 </div>
                 <div class="col m3 hide-on-small-only">
-                    <p id="@playerCount">@game.AvailablePlayers.Count</p>
+                    <p>Available: <span id="@playerCount">@game.AvailablePlayers.Count</span></p>
                 </div>
             </div>
             <div class="collapsible-body row">
