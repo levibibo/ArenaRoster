@@ -57,7 +57,7 @@
                 <div class="col s6 hide-on-large-only"><p class="center">Available</p></div>
                 @foreach (Availability teammate in game.AvailablePlayers)
                 {
-                    <div class="col s12 m6">
+                    <div class="col s12 m6 l4">
                         <span class="col s6">@teammate.AppUser.Name</span>
                         @if (teammate.AppUser.UserName == User.Identity.Name)
                         {

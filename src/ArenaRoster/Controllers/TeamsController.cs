@@ -248,12 +248,14 @@ namespace RecTeam.Controllers
 
         public IActionResult GetMessages(int id)
         {
+            
             Team team = _db.Teams
                 .Include(t => t.Messages)
                 .Include(t => t.Roster)
                     .ThenInclude(r => r.AppUser)
                         .ThenInclude(u => u.Messages)
                 .FirstOrDefault(t => t.Id == id);
+            team.Messages.OrderBy(m => m.PostDateTime);
             return View(team);
         }
 
@@ -267,7 +269,7 @@ namespace RecTeam.Controllers
                 Message = message,
                 AppUser = user,
                 Team = team,
-                PostDateTime = DateTime.Today
+                PostDateTime = DateTime.Now
             };
             _db.Messagese.Add(newMessage);
             _db.SaveChanges();
@@ -277,6 +279,7 @@ namespace RecTeam.Controllers
                     .ThenInclude(r => r.AppUser)
                         .ThenInclude(u => u.Messages)
                 .FirstOrDefault(t => t.Id == id);
+            team.Messages.OrderBy(m => m.PostDateTime);
             return View("GetMessages", team);
         }
 

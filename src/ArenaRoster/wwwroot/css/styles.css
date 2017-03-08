@@ -2,7 +2,7 @@
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-  }
+}
 
 main {
     flex: 1 0 auto;
@@ -38,22 +38,22 @@ a {
     color: darkgreen;
 }
 
-a:hover {
-    color: lightgreen;
-}
+    a:hover {
+        color: lightgreen;
+    }
 
 .not-button {
     color: darkgreen;
-    background:none!important;
-    border:none; 
-    padding:0!important;
+    background: none !important;
+    border: none;
+    padding: 0 !important;
     font: inherit;
     cursor: pointer;
 }
 
-.not-button:hover {
-    color: lightgreen;
-}
+    .not-button:hover {
+        color: lightgreen;
+    }
 
 .game-row {
     margin: 0px;
@@ -80,32 +80,32 @@ a:hover {
     align-items: center;
 }
 
-.player-image img {
-    margin: 0 auto;
-    min-height: 100%;
-    min-width: 100%;
-    vertical-align: middle;
-    object-fit: scale-down;
-}
+    .player-image img {
+        margin: 0 auto;
+        min-height: 100%;
+        min-width: 100%;
+        vertical-align: middle;
+        object-fit: scale-down;
+    }
 
 .name-image {
     display: flex;
     justify-content: flex-start;
 }
 
-.name-image .player-image {
-    height: 70px;
-    width: 70px;
-    margin-left: 0px;
-    margin-right: 20px;
-}
+    .name-image .player-image {
+        height: 70px;
+        width: 70px;
+        margin-left: 0px;
+        margin-right: 20px;
+    }
 
 a {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 #sidenav-overlay {
-	z-index: 1;
+    z-index: 1;
 }
 
 .parallax-container {
@@ -120,4 +120,54 @@ a {
     height: 400px;
     width: 100%;
     border: 1px solid darkgreen;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.chat-message {
+    box-shadow: none;
+    max-width: 80%;
+    overflow-wrap: break-word;
+    border-radius: 20px 20px 0px 20px;
+    padding: 9px 20px !important;
+    margin-bottom: 2px;
+}
+
+    .chat-message p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+        .chat-message p:first-of-type {
+            margin-bottom: 3px;
+        }
+
+    .chat-message.left {
+        border-radius: 20px 20px 20px 0px;
+        margin-right: 20%;
+    }
+
+    .chat-message.right {
+        border-radius: 20px 20px 0px 20px;
+        margin-left: 20%;
+    }
+
+.no-top-margin {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    height: auto;
+}
+
+em {
+    font-size: 10px;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card {
+    margin: 0px initial !important;
 }

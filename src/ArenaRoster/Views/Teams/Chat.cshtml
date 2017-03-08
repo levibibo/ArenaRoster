@@ -10,16 +10,33 @@
 <h4>@ViewBag.Team.Name Chat</h4>
 
 <script>
+    var interval = 0;
+    var IntervalDelta = 15000;
+    var SetIntervalLength = function(priorMessages, newMessages) {
+        if (priorMessages === newMessages && interval < 300000)
+        {
+            console.log("no new messages");
+            interval += IntervalDelta;
+        }
+        else
+        {
+            console.log("new messages");
+            interval = IntervalDelta;
+        }
+    }
+
     var CheckMessages = function () {
         $.ajax({
             type: "GET",
             url: '@Url.Action("GetMessages", new { id = ViewBag.Team.Id })',
             success: function (response) {
-                console.log(response);
+                var priorMessages = $("#message-window").children().count;
                 $("#message-window").html(response);
+                var newMessages = $("#message-window").children().count;
+                SetIntervalLength(priorMessages, newMessages);
+                setTimeout(CheckMessages, interval);
             },
             error: function (response) {
-                console.log(response);
                 $("message-window").text("Error retrieving messages.");
             }
         })
@@ -27,12 +44,30 @@
 
     $(function () {
         CheckMessages();
-        setInterval(CheckMessages, 30000);
+        setTimeout(CheckMessages, interval);
+
+        $("#message-form").submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("PostMessage", new { id = ViewBag.Team.Id})',
+                data: $(this).serialize(),
+                datatype: 'json',
+                success: function (response) {
+                    console.log(response);
+                    $("#message-window").html(response);
+                },
+                error: function (response) {
+                    console.log(response);
+                    $("#message-window").text("Unable to send message.");
+                }
+            })
+        })
     })
 </script>
 
 <div id="message-window">Retrieving Team Messages...</div>
-<form class="row">
+<form class="row" id="message-form">
     @*<div class="col m1 hide-on-small-only">
         @if (ViewBag.User.Image != null)
         {
