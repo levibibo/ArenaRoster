@@ -10,16 +10,16 @@
 
 <h4>Team Schedule</h4>
 <div class="row">
-    <div class="col s3">
+    <div class="col s4 m3">
         <h5>Date</h5>
     </div>
-    <div class="col s3">
+    <div class="col s4 m3">
         <h5>Time</h5>
     </div>
-    <div class="col s3">
+    <div class="col s4 m3">
         <h5>Location</h5>
     </div>
-    <div class="col s3">
+    <div class="col m3 hide-on-small-only">
         <h5>Available Players</h5>
     </div>
 </div>
@@ -36,20 +36,25 @@
 
         <li>
             <div class="collapsible-header row">
-                <div class="col s12 m3">
-                    <p>@game.Date.Month / @game.Date.Day / @game.Date.Year</p>
+                <div class="col s1">
+                    <p><i class="material-icons">keyboard_arrow_down</i></p>
                 </div>
-                <div class="col s12 m3">
+                <div class="col s4 m3">
+                    <p>@game.Date.Month / @game.Date.Day<span class="hide-on-small-only"> / @game.Date.Year</span></p>
+                </div>
+                <div class="col s3 m2">
                     <p>@time</p>
                 </div>
-                <div class="col s12 m3">
+                <div class="col s4 m3">
                     <p>@game.Location</p>
                 </div>
-                <div class="col s12 m3">
+                <div class="col m3 hide-on-small-only">
                     <p id="@playerCount">@game.AvailablePlayers.Count</p>
                 </div>
             </div>
             <div class="collapsible-body row">
+                <div class="col s6 hide-on-large-only"><p>Player</p></div>
+                <div class="col s6 hide-on-large-only"><p class="center">Available</p></div>
                 @foreach (Availability teammate in game.AvailablePlayers)
                 {
                     <div class="col s12 m6">
@@ -57,9 +62,8 @@
                         @if (teammate.AppUser.UserName == User.Identity.Name)
                         {
                             string availability = $"{teammate.Id}-availability";
-                            <div class="switch col s6">
+                            <div class="switch col s6 center">
                                 <label>
-                                    Unavailable
                                     @if (teammate.Available)
                                     {
                                         <input id="@availability" type="checkbox" name="Available" checked>
@@ -69,7 +73,7 @@
                                         <input id="@availability" type="checkbox" name="Available">
                                     }
                                     <span class="lever"></span>
-                                    Available
+                                    <span class="hide-on-med-and-down">Available</span>
                                 </label>
                             </div>
                             <script>
@@ -95,9 +99,8 @@
                         }
                         else
                         {
-                            <div class="switch col s6">
+                            <div class="switch col s6 center">
                                 <label>
-                                    Unavailable
                                     @if (teammate.Available)
                                     {
                                         <input disabled type="checkbox" name="Available" checked>
@@ -107,7 +110,7 @@
                                         <input disabled type="checkbox" name="Available">
                                     }
                                     <span class="lever"></span>
-                                    Available
+                                    <span class="hide-on-med-and-down">Available</span>
                                 </label>
                             </div>
                         }

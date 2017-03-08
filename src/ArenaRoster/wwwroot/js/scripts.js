@@ -5,7 +5,9 @@
         draggable: true
     });
     $('select').material_select();
-    $('.collapsible').collapsible();
+    $('.collapsible').collapsible({
+        accordion: true,
+    });
     $('.datepicker').pickadate({
         selectMonths: true,
         selectYears: 15

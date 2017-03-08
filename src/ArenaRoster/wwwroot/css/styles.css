@@ -111,3 +111,7 @@ a {
 .parallax-container {
     height: 300px;
 }
+
+.start-disabled {
+    display: none;
+}
