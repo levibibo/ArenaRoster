@@ -8,9 +8,10 @@ using RecTeam.Models;
 namespace ArenaRoster.Migrations
 {
     [DbContext(typeof(RecTeamDbContext))]
-    partial class RecTeamDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170308183801_AddChatModel")]
+    partial class AddChatModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")

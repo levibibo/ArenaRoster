@@ -234,13 +234,50 @@ namespace RecTeam.Controllers
             return RedirectToAction("Details", new { id = team.Id });
         }
 
-        public IActionResult Chat(int id)
+        public async Task<IActionResult> Chat(int id)
         {
-            Team team = _db.Teams
+            ViewBag.User = await _userManager.GetUserAsync(User);
+            ViewBag.Team = _db.Teams
+                .Include(t => t.Messages)
                 .Include(t => t.Roster)
                     .ThenInclude(r => r.AppUser)
+                        .ThenInclude(u => u.Messages)
+                .FirstOrDefault(t => t.Id == id);
+            return View();
+        }
+
+        public IActionResult GetMessages(int id)
+        {
+            Team team = _db.Teams
+                .Include(t => t.Messages)
+                .Include(t => t.Roster)
+                    .ThenInclude(r => r.AppUser)
+                        .ThenInclude(u => u.Messages)
                 .FirstOrDefault(t => t.Id == id);
             return View(team);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostMessage(int id, string message)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            ChatMessage newMessage = new ChatMessage()
+            {
+                Message = message,
+                AppUser = user,
+                Team = team,
+                PostDateTime = DateTime.Today
+            };
+            _db.Messagese.Add(newMessage);
+            _db.SaveChanges();
+            team = _db.Teams
+                .Include(t => t.Messages)
+                .Include(t => t.Roster)
+                    .ThenInclude(r => r.AppUser)
+                        .ThenInclude(u => u.Messages)
+                .FirstOrDefault(t => t.Id == id);
+            return View("GetMessages", team);
         }
 
         public IActionResult Admin(int id)

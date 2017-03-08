@@ -1,0 +1,27 @@
+﻿@using RecTeam.Models
+@model Team
+
+@foreach (ChatMessage message in Model.Messages)
+{
+    <div class="row">
+        <div class="col s12">
+            @if (User.Identity.Name == message.AppUser.UserName)
+            {
+                <div class="card blue lighten-2 right">
+                    <div class="card-content">
+                        <p>@message.Message</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card green lighten-2 left">
+                    <div class="card-content">
+                        <p>@message.Message</p>
+                        <p>@message.AppUser.Name</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

@@ -1,10 +1,49 @@
 ﻿@{
-    ViewData["Title"] = $"Roster - {Model.Name}";
+    ViewData["Title"] = $"Chat - {ViewBag.Team.Name}";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using RecTeam.Models
-@model Team
+@model ChatMessage
 
-<h1><a href="/Teams/Details/@Model.Id">@Model.Name</a></h1>
+<h1><a href="/Teams/Details/@ViewBag.Team.Id">@ViewBag.Team.Name</a></h1>
 <hr />
-<h4>@Model.Name Chat</h4>
+<h4>@ViewBag.Team.Name Chat</h4>
+
+<script>
+    var CheckMessages = function () {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetMessages", new { id = ViewBag.Team.Id })',
+            success: function (response) {
+                console.log(response);
+                $("#message-window").html(response);
+            },
+            error: function (response) {
+                console.log(response);
+                $("message-window").text("Error retrieving messages.");
+            }
+        })
+    }
+
+    $(function () {
+        CheckMessages();
+        setInterval(CheckMessages, 30000);
+    })
+</script>
+
+<div id="message-window">Retrieving Team Messages...</div>
+<form class="row">
+    @*<div class="col m1 hide-on-small-only">
+        @if (ViewBag.User.Image != null)
+        {
+            string playerImage = String.Format($"data:image/gif;base64,{Convert.ToBase64String(ViewBag.User.Image)}");
+            <img class="prefix" src="@playerImage" />
+        }
+    </div>*@
+    <div class="input-field col s10">
+        <input type="text" name="message" placeholder="Enter Message" />
+    </div>
+    <div class="col s2 m1">
+        <button type="submit" class="btn blue lighten-2">Send</button>
+    </div>
+</form>
