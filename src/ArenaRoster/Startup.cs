@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -53,6 +48,7 @@ namespace RecTeam
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
             app.UseStaticFiles();
+            app.UseSignalR();
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("<h1>Not a valid path.<h1><a href=\"/Home\">Click here to return to the site.</a>");

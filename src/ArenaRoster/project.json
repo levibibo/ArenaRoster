@@ -21,7 +21,8 @@
         "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
         "Microsoft.EntityFrameworkCore": "1.0.0",
         "MailKit": "1.10.2",
-        "RestSharp.NetCore": "105.2.3"
+        "RestSharp.NetCore": "105.2.3",
+        "Gray.Microsoft.AspNetCore.SignalR.Server": "0.2.0-alpha1"
     },
 
     "tools": {
