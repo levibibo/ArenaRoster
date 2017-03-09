@@ -4,8 +4,13 @@
 }
 
 @using RecTeam.Models
-
 @model ApplicationUser
+
+<script>
+    $(function () {
+        $('select').material_select();
+    })
+</script>
 
 <h1>Change your user settings</h1>
 
@@ -21,8 +26,12 @@
         <input asp-for="Email" id="Email" value="@Model.Email" class="validated" />
     </div>
     <div class="input-field">
-        <label asp-for="PhoneNumber">PhoneNumber</label>
+        <label asp-for="PhoneNumber">Phone Number</label>
         <input asp-for="PhoneNumber" id="PhoneNumber" value="@Model.PhoneNumber" class="validated" />
+    </div>
+    <div class="input-field">
+        <label asp-for="Position">Position</label>
+        <input asp-for="Position" id="Position" value="@Model.Position" class="validated" />
     </div>
     <div class="file-field input-field">
         <div class="btn">

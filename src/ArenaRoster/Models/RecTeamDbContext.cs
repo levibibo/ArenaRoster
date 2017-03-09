@@ -18,7 +18,6 @@ namespace RecTeam.Models
         public DbSet<Game> Games { get; set; }
         public DbSet<PlayerTeam> PlayersTeams { get; set; }
         public DbSet<Availability> Availabilities { get; set; }
-        public DbSet<Position> Positions { get; set; }
         public DbSet<ChatMessage> Messagese { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)

@@ -10,6 +10,7 @@ using MailKit;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics;
 
 namespace RecTeam.Controllers
 {
@@ -111,8 +112,9 @@ namespace RecTeam.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ApplicationUser user, IFormFile Image)
+        public async Task<IActionResult> Edit(ApplicationUser user, IFormFile Image, string positionId)
         {
+            Debug.WriteLine(positionId + "******************");
             //REFACTOR
             ApplicationUser thisUser = await _userManager.GetUserAsync(User);
             if (Image != null)
@@ -127,6 +129,7 @@ namespace RecTeam.Controllers
             thisUser.Name = user.Name;
             thisUser.Email = user.Email;
             thisUser.PhoneNumber = user.PhoneNumber;
+            thisUser.Position = user.Position;
             thisUser.NormalizedEmail = thisUser.NormalizedUserName = user.Email.ToUpper();
             _db.Entry(thisUser).State = EntityState.Modified;
             _db.SaveChanges();

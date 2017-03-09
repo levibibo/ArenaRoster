@@ -9,7 +9,8 @@ namespace RecTeam.Models
 
     public class ApplicationUser : IdentityUser
     {
-        public Position Position { get; set; }
+        //public int PositionId { get; set; }
+        public string Position { get; set; }
         public virtual List<Game> Games { get; set; }
         public virtual List<PlayerTeam> Teams { get; set; }
         public virtual List<ChatMessage> Messages { get; set; }

@@ -64,7 +64,18 @@
             <p><a href="tel:@teammate.PhoneNumber">@teammate.PhoneNumber</a></p>
         </div>
         <div class="col m3 hide-on-small-only">
-            <p>@teammate.Position</p>
+            @if (teammate.Position != null)
+            {
+                <p>@teammate.Position</p>
+            }
+            else if (teammate.UserName == User.Identity.Name)
+            {
+                <p><a asp-controller="Account" asp-action="Edit">Set a position in your User Account Settings.</a></p>
+            }
+            else
+            {
+                <p>None set.</p>
+            }
         </div>
     </div>
 
@@ -81,7 +92,18 @@
                     <span class="card-title">@teammate.Name</span>
                     <p>Phone: <a href="tel:@teammate.PhoneNumber">@teammate.PhoneNumber</a></p>
                     <p>Email: <a href="mailto:@teammate.Email">@teammate.Email</a></p>
-                    <p>Preferred Position: @teammate.Position</p>
+                    @if (teammate.Position != null)
+                    {
+                        <p>Preferred Position: @teammate.Position</p>
+                    }
+                    else
+                    {
+                        <p>Preferred Position: None set.</p>
+                        @if (teammate.UserName == User.Identity.Name)
+                        {
+                            <p><a asp-controller="Account" asp-action="Edit">Set a position in your User Account Settings.</a></p>
+                        }
+                    }
                 </div>
             </div>
         </div>

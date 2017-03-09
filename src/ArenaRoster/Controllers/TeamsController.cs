@@ -121,10 +121,6 @@ namespace RecTeam.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(User);
             Team team = _db.Teams.Include(t => t.TeamManager)
                 .FirstOrDefault(t => t.Id == id);
-            //if (team == null)
-            //{
-            //    return RedirectToAction("NotValidTeam");
-            //}
             ViewBag.Roster = _db.PlayersTeams.Include(pt => pt.AppUser)
                 .Where(pt => pt.Team == team)
                 .Select(pt => pt.AppUser)
@@ -146,6 +142,7 @@ namespace RecTeam.Controllers
             List<Game> Schedule = _db.Games
                 .Include(g => g.AvailablePlayers)
                     .ThenInclude(a => a.AppUser)
+                        .ThenInclude(u => u.Position)
                 .Where(g => g.Team == team)
                 .OrderBy(g => g.Date)
                 .ToList();
@@ -169,6 +166,7 @@ namespace RecTeam.Controllers
             Game game = _db.Games
                 .Include(g => g.AvailablePlayers)
                     .ThenInclude(a => a.AppUser)
+                        .ThenInclude(u => u.Position)
                 .Where(g => g.Team == team)
                 .OrderBy(g => g.Date)
                 .FirstOrDefault(g => g.Id == player.Game.Id);
