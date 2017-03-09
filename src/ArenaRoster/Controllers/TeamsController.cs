@@ -142,7 +142,6 @@ namespace RecTeam.Controllers
             List<Game> Schedule = _db.Games
                 .Include(g => g.AvailablePlayers)
                     .ThenInclude(a => a.AppUser)
-                        .ThenInclude(u => u.Position)
                 .Where(g => g.Team == team)
                 .OrderBy(g => g.Date)
                 .ToList();
