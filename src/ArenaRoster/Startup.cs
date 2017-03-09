@@ -48,7 +48,7 @@ namespace RecTeam
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
             app.UseStaticFiles();
-            app.UseSignalR();
+            //app.UseSignalR(); //Waiting for SignalR implementation
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("<h1>Not a valid path.<h1><a href=\"/Home\">Click here to return to the site.</a>");
