@@ -6,17 +6,9 @@
 }
 @foreach (ChatMessage message in Model.Messages.ToList())
 {
-    string messageDateTime = (((message.PostDateTime.Hour - 1) % 12) + 1).ToString();
+    string messageDateTime = message.PostDateTime.ToLocalTime().ToString();
     string minutes = message.PostDateTime.Minute.ToString();
-    if (minutes.Length < 2)
-    {
-        minutes = "0" + minutes;
-    }
-    messageDateTime += $":{minutes}";
-    @if (message.PostDateTime.Date != DateTime.Today)
-    {
-        messageDateTime = message.PostDateTime.DayOfWeek + messageDateTime;
-    }
+
     @if (previousMessager != message.AppUser.Id)
     {
         <div class="row no-top-margin">
