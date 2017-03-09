@@ -88,6 +88,28 @@ a {
         object-fit: scale-down;
     }
 
+.chat-image {
+    height: 61px;
+    width: 61px;
+    margin: 0px;
+    border-radius: 20px 20px 0px 20px;
+    overflow: hidden;
+    border: 1px solid darkgreen;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+    .chat-image img {
+        margin: 0 auto;
+        min-height: 100%;
+        min-width: 100%;
+        vertical-align: middle;
+        object-fit: scale-down;
+    }
+
 .name-image {
     display: flex;
     justify-content: flex-start;
@@ -131,6 +153,7 @@ a {
     border-radius: 20px 20px 0px 20px;
     padding: 9px 20px !important;
     margin-bottom: 2px;
+    display: inline;
 }
 
     .chat-message p {
@@ -152,10 +175,31 @@ a {
         margin-left: 20%;
     }
 
-.no-top-margin {
+.message {
     margin-bottom: 0px;
     margin-top: 0px;
     height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+    .message.incoming-message {
+    }
+
+.incoming-message {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 80%;
+}
+
+.outgoing-message {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
 }
 
 em {

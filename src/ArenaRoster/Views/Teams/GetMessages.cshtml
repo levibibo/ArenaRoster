@@ -1,54 +1,39 @@
 ﻿@using RecTeam.Models
 @using System.Linq;
 @model Team
-@{
-    string previousMessager = "";
-}
+
 @foreach (ChatMessage message in Model.Messages.ToList())
 {
     string messageDateTime = message.PostDateTime.ToLocalTime().ToString();
     string minutes = message.PostDateTime.Minute.ToString();
 
-    @if (previousMessager != message.AppUser.Id)
-    {
-        <div class="row no-top-margin">
-            <div class="col s12 no-top-margin">
-                @if (User.Identity.Name == message.AppUser.UserName)
-                {
+    <div class="row">
+        <div class="col s12 message">
+            @if (User.Identity.Name == message.AppUser.UserName)
+            {
+                <div class="outgoing-message">
                     <div class="blue lighten-2 right chat-message">
                         <p>@message.Message</p>
                         <p><em>@messageDateTime</em></p>
                     </div>
-                }
-                else
-                {
-                    <div class="green lighten-2 left chat-message">
+                </div>
+            }
+            else
+            {
+                <div class="incoming-message left">
+                    @if (message.AppUser.Image != null)
+                    {
+                        string playerImage = String.Format($"data:image/gif;base64,{Convert.ToBase64String(message.AppUser.Image)}");
+                        <div class="chat-image">
+                            <img src="@playerImage" />
+                        </div>
+                    }
+                    <div class="green lighten-2 chat-message left">
                         <p>@message.Message</p>
                         <p><em>~ @message.AppUser.Name, @messageDateTime</em></p>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
-    }
-    else
-    {
-        <div class="row">
-            <div class="col s12">
-                @if (User.Identity.Name == message.AppUser.UserName)
-                {
-                    <div class="blue lighten-2 right chat-message">
-                        <p>@message.Message</p>
-                        <p><em>@messageDateTime</em></p>
-                    </div>
-                }
-                else
-                {
-                    <div class="green lighten-2 left chat-message">
-                        <p>@message.Message</p>
-                        <p><em>~ @message.AppUser.Name, @messageDateTime</em></p>
-                    </div>
-                }
-            </div>
-        </div>
-    }
+    </div>
 }

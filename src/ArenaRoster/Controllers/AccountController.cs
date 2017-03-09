@@ -114,7 +114,6 @@ namespace RecTeam.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ApplicationUser user, IFormFile Image, string positionId)
         {
-            Debug.WriteLine(positionId + "******************");
             //REFACTOR
             ApplicationUser thisUser = await _userManager.GetUserAsync(User);
             if (Image != null)
