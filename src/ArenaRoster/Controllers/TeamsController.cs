@@ -255,7 +255,7 @@ namespace RecTeam.Controllers
                     .ThenInclude(r => r.AppUser)
                         .ThenInclude(u => u.Messages)
                 .FirstOrDefault(t => t.Id == id);
-            team.Messages.OrderBy(m => m.PostDateTime);
+            team.Messages = team.Messages.OrderByDescending(m => m.PostDateTime).ToList();
             return View(team);
         }
 
@@ -279,7 +279,7 @@ namespace RecTeam.Controllers
                     .ThenInclude(r => r.AppUser)
                         .ThenInclude(u => u.Messages)
                 .FirstOrDefault(t => t.Id == id);
-            team.Messages.OrderBy(m => m.PostDateTime);
+            team.Messages.OrderByDescending(m => m.PostDateTime);
             return View("GetMessages", team);
         }
 
