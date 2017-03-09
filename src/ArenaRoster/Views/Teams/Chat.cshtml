@@ -54,7 +54,7 @@
                 data: $(this).serialize(),
                 datatype: 'json',
                 success: function (response) {
-                    console.log(response);
+                    $("#message").val("");
                     $("#message-window").html(response);
                 },
                 error: function (response) {
@@ -76,7 +76,7 @@
         }
     </div>*@
     <div class="input-field col s10">
-        <input type="text" name="message" placeholder="Enter Message" />
+        <input type="text" id="message" name="message" placeholder="Enter Message" />
     </div>
     <div class="col s2 m1">
         <button type="submit" class="btn blue lighten-2">Send</button>
