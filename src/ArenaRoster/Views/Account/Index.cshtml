@@ -25,7 +25,7 @@
 {
     <div class="row">
         <h1>@Model.Name Account Settings</h1>
-        
+
         @if (Model.Image != null)
         {
             string playerImage = "";
@@ -43,6 +43,8 @@
             }
             &nbsp;|&nbsp;
             @Html.ActionLink("Edit Account Information", "Edit")
+            &nbsp;|&nbsp;
+            <a asp-controller="Account" asp-action="ChangePassword">Change Password</a>
         </div>
     </div>
     <hr />

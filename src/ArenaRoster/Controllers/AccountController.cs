@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using MailKit;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RecTeam.Controllers
 {
@@ -102,6 +103,7 @@ namespace RecTeam.Controllers
             }
         }
 
+        [Authorize]
         public async Task<IActionResult> Edit()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -131,6 +133,28 @@ namespace RecTeam.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            IdentityResult result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> LogOff()
         {
