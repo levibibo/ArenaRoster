@@ -33,8 +33,8 @@
                 var priorMessages = $("#message-window").children().count;
                 $("#message-window").html(response);
                 var newMessages = $("#message-window").children().count;
-                SetIntervalLength(priorMessages, newMessages);
-                //setTimeout(CheckMessages, interval);
+                //SetIntervalLength(priorMessages, newMessages);
+                setTimeout(CheckMessages, interval);
             },
             error: function (response) {
                 $("message-window").text("Error retrieving messages.");
@@ -44,7 +44,6 @@
 
     $(function () {
         CheckMessages();
-        //setTimeout(CheckMessages, interval);
 
         $("#message-form").submit(function (event) {
             event.preventDefault();
