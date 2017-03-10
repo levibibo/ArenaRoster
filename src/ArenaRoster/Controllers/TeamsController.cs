@@ -71,7 +71,7 @@ namespace RecTeam.Controllers
             }
             else
             {
-                MailgunApi.SendNewTeammateEmail(email, team.Name);
+                MailgunApi.SendNewTeammateEmail(email, team);
             }
             //Add new user to team
             PlayerTeam newTeammate = new PlayerTeam() { };
@@ -165,7 +165,6 @@ namespace RecTeam.Controllers
             Game game = _db.Games
                 .Include(g => g.AvailablePlayers)
                     .ThenInclude(a => a.AppUser)
-                        .ThenInclude(u => u.Position)
                 .Where(g => g.Team == team)
                 .OrderBy(g => g.Date)
                 .FirstOrDefault(g => g.Id == player.Game.Id);

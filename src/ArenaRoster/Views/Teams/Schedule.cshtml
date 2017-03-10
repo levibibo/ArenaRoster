@@ -5,24 +5,10 @@
 @using RecTeam.Models
 @model List<Game>
 
-<h1><a href="/Teams/Details/@ViewBag.Team.Id">@ViewBag.Team.Name</a></h1>
+<h1 class="hide-on-small-only"><a href="/Teams/Details/@ViewBag.Team.Id">@ViewBag.Team.Name</a></h1>
 <hr />
 
 <h4>Team Schedule</h4>
-@*<div class="row">
-    <div class="col s4 m3 offset-s1 offset-m1 center">
-        <h5>Date</h5>
-    </div>
-    <div class="col s3 m2 center">
-        <h5>Time</h5>
-    </div>
-    <div class="col s4 m3 center">
-        <h5>Location</h5>
-    </div>
-    <div class="col m3 center hide-on-small-only">
-        <h5>Available Players</h5>
-    </div>
-</div>*@
 <ul class="collapsible popout" data-collapsible="accordion">
     @foreach (Game game in Model)
     {
@@ -61,7 +47,7 @@
                         <span class="col s6">@teammate.AppUser.Name</span>
                         @if (teammate.AppUser.UserName == User.Identity.Name)
                         {
-                            string availability = $"{teammate.Id}-availability";
+                            string availability = $"availability-{teammate.Id}";
                             <div class="switch col s6 center">
                                 <label>
                                     @if (teammate.Available)
@@ -78,8 +64,9 @@
                             </div>
                             <script>
                                 $(function () {
-                                    $("#" + "@availability").change(function()
+                                    $("#@availability").change(function()
                                     {
+                                        console.log("changed");
                                         var sliderPosition = $(this).prop("checked");
                                         $.ajax({
                                             type: "PATCH",
