@@ -5,6 +5,15 @@
 @using RecTeam.Models
 @model Game
 
+<script>
+    $(function () {
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15 // Creates a dropdown of 15 years to control year
+        });
+    })
+</script>
+
 <h1>Add a game</h1>
 <hr />
 @if (ViewBag.Team.TeamManager.UserName == User.Identity.Name)
