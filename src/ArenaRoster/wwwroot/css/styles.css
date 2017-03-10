@@ -215,3 +215,17 @@ em {
 .card {
     margin: 0px initial !important;
 }
+
+.message-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+    .message-form input {
+        width: 80%;
+    }
+
+    .message-form button {
+        width: 20%;
+    }

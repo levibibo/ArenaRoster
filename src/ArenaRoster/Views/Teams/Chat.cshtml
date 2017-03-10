@@ -7,19 +7,17 @@
 
 <h1><a href="/Teams/Details/@ViewBag.Team.Id">@ViewBag.Team.Name</a></h1>
 <hr />
-<h4>@ViewBag.Team.Name Chat</h4>
+<h4 class="hide-on-small-only">@ViewBag.Team.Name Chat</h4>
 
 <script>
     var interval = 0;
     var IntervalDelta = 15000;
-    var SetIntervalLength = function(priorMessages, newMessages) {
-        if (priorMessages === newMessages && interval < 300000)
-        {
+    var SetIntervalLength = function (priorMessages, newMessages) {
+        if (priorMessages === newMessages && interval < 300000) {
             console.log("no new messages");
             interval += IntervalDelta;
         }
-        else
-        {
+        else {
             console.log("new messages");
             interval = IntervalDelta;
         }
@@ -65,19 +63,21 @@
     })
 </script>
 
-<div id="message-window">Retrieving Team Messages...</div>
-<form class="row" id="message-form">
-    @*<div class="col m1 hide-on-small-only">
-        @if (ViewBag.User.Image != null)
-        {
-            string playerImage = String.Format($"data:image/gif;base64,{Convert.ToBase64String(ViewBag.User.Image)}");
-            <img class="prefix" src="@playerImage" />
-        }
-    </div>*@
-    <div class="input-field col s10">
-        <input type="text" id="message" name="message" placeholder="Enter Message" />
+<div id="message-window">
+    <p>Getting messages for @ViewBag.Team.Name...</p>
+    <div class="spinner-layer spinner-green">
+        <div class="circle-clipper left">
+            <div class="circle"></div>
+        </div><div class="gap-patch">
+            <div class="circle"></div>
+        </div><div class="circle-clipper right">
+            <div class="circle"></div>
+        </div>
     </div>
-    <div class="col s2 m1">
+</div>
+<form class="row" id="message-form">
+    <div class="col s12">
+        <input type="text" id="message" name="message" placeholder="Enter Message" />
         <button type="submit" class="btn blue lighten-2">Send</button>
     </div>
 </form>

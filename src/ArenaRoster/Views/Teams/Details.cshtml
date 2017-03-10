@@ -7,19 +7,21 @@
 
 <h1>@Model.Name</h1>
 <div class="row">
-    <div class="col s12 center" id="account-buttons">
-        @if (Model.TeamManager.UserName == User.Identity.Name)
-        {
-            @Html.ActionLink("Add Player", "AddPlayer", "Teams", new { id = Model.Id })
+    <div class="col s12" id="account-buttons">
+        <p class="center">
+            @if (Model.TeamManager.UserName == User.Identity.Name)
+            {
+                @Html.ActionLink("Add Player", "AddPlayer", "Teams", new { id = Model.Id })
+                <span>&nbsp;| &nbsp;</span>
+                @Html.ActionLink("Remove Player", "RemovePlayer", "Teams", new { id = Model.Id })
+                <span>&nbsp;| &nbsp;</span>
+                @Html.ActionLink("Add Game", "AddGame", "Teams", new { id = Model.Id })
+                <br />
+            }
+            @Html.ActionLink("Schedule", "Schedule", "Teams", new { id = Model.Id })
             <span>&nbsp;| &nbsp;</span>
-            @Html.ActionLink("Remove Player", "RemovePlayer", "Teams", new { id = Model.Id })
-            <span>&nbsp;| &nbsp;</span>
-            @Html.ActionLink("Add Game", "AddGame", "Teams", new { id = Model.Id })
-            <span>&nbsp;| &nbsp;</span>
-        }
-        @Html.ActionLink("Schedule", "Schedule", "Teams", new { id = Model.Id })
-        <span>&nbsp;| &nbsp;</span>
-        @Html.ActionLink("Chat", "Chat", "Teams", new { id = Model.Id })
+            @Html.ActionLink("Chat", "Chat", "Teams", new { id = Model.Id })
+        </p>
     </div>
 </div>
 <hr />

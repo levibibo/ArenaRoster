@@ -6,9 +6,13 @@
 @model List<Game>
 
 <h1 class="hide-on-small-only"><a href="/Teams/Details/@ViewBag.Team.Id">@ViewBag.Team.Name</a></h1>
+@if (ViewBag.Team.TeamManager.UserName == User.Identity.Name)
+{
+    <p class="center">@Html.ActionLink("Add Game", "AddGame", "Teams", new { id = ViewBag.Team.Id })</p>
+}
 <hr />
 
-<h4>Team Schedule</h4>
+<h2>Team Schedule</h2>
 <ul class="collapsible popout" data-collapsible="accordion">
     @foreach (Game game in Model)
     {
