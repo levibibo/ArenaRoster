@@ -19,7 +19,10 @@
         <option selected disabled>Select teammate to remove...</option>
         @foreach (PlayerTeam teammate in ViewBag.Roster)
         {
-            <option value="@teammate.Id">@teammate.AppUser.Name (@teammate.AppUser.Email)</option>
+            @if (teammate.AppUser.UserName != ViewBag.Team.TeamManager.UserName)
+            {
+                <option value="@teammate.Id">@teammate.AppUser.Name (@teammate.AppUser.Email)</option>
+            }
         }
     </select>
     <input class="btn blue" type="submit" value="Remove Teammate" />

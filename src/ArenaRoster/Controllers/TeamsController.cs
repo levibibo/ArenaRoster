@@ -100,7 +100,7 @@ namespace RecTeam.Controllers
 
         public IActionResult RemovePlayer(int id)
         {
-            Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
+            Team team = _db.Teams.Include(t => t.TeamManager).FirstOrDefault(t => t.Id == id);
             ViewBag.Team = team;
             ViewBag.roster = _db.PlayersTeams.Include(pt => pt.AppUser)
                 .Where(pt => pt.Team == team).ToList();

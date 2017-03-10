@@ -43,7 +43,7 @@ namespace RecTeam.Models
             request.AddParameter("from", $"RecTeam <NewUsers@{EnvironmentVariables.MailgunDomain}>");
             request.AddParameter("to", $"{recipient}");
             request.AddParameter("subject", $"Invitation to join team {team.Name}");
-            request.AddParameter("text", $"You have been invited to join the team {team.Name} on <a href=\"http://www.RecTeam.net/Teams/Details/{team.Id}\">RecTeam.net.  Please log in with the following email address: {recipient}.");
+            request.AddParameter("text", $"You have been invited to join the team {team.Name} on <a href=\"http://www.RecTeam.net/Teams/Details/{team.Id}\">RecTeam.net</a>.  Please log in with the following email address: {recipient}.");
             request.Method = Method.POST;
 
             RestResponse response = new RestResponse();
