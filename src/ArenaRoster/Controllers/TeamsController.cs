@@ -67,7 +67,7 @@ namespace RecTeam.Controllers
                 string password = ApplicationUser.GeneratePassword();
                 user = new ApplicationUser() { Email = email, UserName = email, Name = email.Split('@')[0] };
                 IdentityResult result = await _userManager.CreateAsync(user, password);
-                MailgunApi.SendNewUserEmail(email, team.Name, password);
+                MailgunApi.SendNewUserEmail(email, team, password);
             }
             else
             {
