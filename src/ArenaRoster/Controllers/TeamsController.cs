@@ -143,6 +143,7 @@ namespace RecTeam.Controllers
                 .Include(g => g.AvailablePlayers)
                     .ThenInclude(a => a.AppUser)
                 .Where(g => g.Team == team)
+                .Where(g => g.Date >= DateTime.Today)
                 .OrderBy(g => g.Date)
                 .ToList();
             return View(Schedule);
