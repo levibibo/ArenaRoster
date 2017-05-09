@@ -65,13 +65,24 @@ namespace RecTeam.Controllers
 
         public IActionResult Register()
         {
+            ViewBag.EmailTaken = false;
+            ViewBag.LoginError = false;
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            //Make sure email is not already in use before attempting to create a new profile
             ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
+            if (_db.Users.Where(u => u.Email == model.Email).ToList().Count > 0)
+            {
+                ViewBag.EmailTaken = true;
+                ViewBag.LoginError = false;
+                return View();
+            }
+
+            //Create user profile if the email is available
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
@@ -80,19 +91,21 @@ namespace RecTeam.Controllers
             }
             else
             {
+                ViewBag.EmailTaken = false;
+                ViewBag.LoginError = true;
                 return View();
             }
         }
 
         public IActionResult Login()
         {
+            ViewBag.LoginError = false;
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
             if (result.Succeeded)
             {
@@ -100,6 +113,7 @@ namespace RecTeam.Controllers
             }
             else
             {
+                ViewBag.LoginError = true;
                 return View();
             }
         }

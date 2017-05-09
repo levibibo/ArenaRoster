@@ -9,14 +9,21 @@
 <h1>Log in with your account</h1>
 <hr />
 
+
 <form asp-controller="Account" asp-action="Login" method="post">
     <div class="input-field">
         <label asp-for="Email">Email</label>
-        <input asp-for="Email" id="Email" class="validated" />
+        <input asp-for="Email" id="Email" class="validated" required/>
     </div>
     <div class="input-field">
         <label asp-for="Password">Password</label>
-        <input asp-for="Password" id="Password" type="password" class="validated" />
+        <input asp-for="Password" id="Password" type="password" class="validated" required/>
     </div>
     <input type="submit" value="Log in" class="btn blue lighten-2" />
 </form>
+@if (ViewBag.LoginError)
+{
+    <div class="error-message">
+        <p>Invalid email and/or password</p>
+    </div>
+}
