@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RecTeam.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace RecTeam.Controllers
 {
@@ -25,16 +25,23 @@ namespace RecTeam.Controllers
             _signInManager = signInManager;
         }
 
+        #region Index
+
         [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
             return View(_db.Teams.ToList());
         }
 
+        #endregion
+
+        #region Create
+
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(Team newTeam)
         {
@@ -48,11 +55,16 @@ namespace RecTeam.Controllers
             return RedirectToAction("Details", new { id = newTeam.Id });
         }
 
+        #endregion
+
+        #region AddPlayer
+
         public IActionResult AddPlayer(int id)
         {
             ViewBag.Team = _db.Teams.FirstOrDefault(t => t.Id == id);
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> AddPlayer(int id, string email)
         {
@@ -98,6 +110,10 @@ namespace RecTeam.Controllers
             return RedirectToAction("Details", new { id = team.Id });
         }
 
+        #endregion
+
+        #region RemovePlayer
+
         public IActionResult RemovePlayer(int id)
         {
             Team team = _db.Teams.Include(t => t.TeamManager).FirstOrDefault(t => t.Id == id);
@@ -115,6 +131,10 @@ namespace RecTeam.Controllers
             _db.SaveChanges();
             return RedirectToAction("Details", new { id = id });
         }
+
+        #endregion
+
+        #region Details
 
         public async Task<IActionResult> Details(int id)
         {
@@ -135,6 +155,10 @@ namespace RecTeam.Controllers
             return RedirectToAction("NotAMember");
         }
 
+        #endregion
+
+        #region Schedule
+
         public IActionResult Schedule(int id)
         {
             Team team = _db.Teams.Include(t => t.TeamManager).FirstOrDefault(t => t.Id == id);
@@ -148,6 +172,10 @@ namespace RecTeam.Controllers
                 .ToList();
             return View(Schedule);
         }
+
+        #endregion
+
+        #region UpdateAvailability
 
         [HttpPatch]
         public IActionResult UpdateAvailability(int id, int teammate, bool playerAvailability)
@@ -181,6 +209,10 @@ namespace RecTeam.Controllers
 
             return Content(availablePlayers.ToString());
         }
+
+        #endregion
+
+        #region AddGame
 
         public IActionResult AddGame(int id)
         {
@@ -231,6 +263,10 @@ namespace RecTeam.Controllers
             return RedirectToAction("Details", new { id = team.Id });
         }
 
+        #endregion
+
+        #region Chat
+
         public async Task<IActionResult> Chat(int id)
         {
             ViewBag.User = await _userManager.GetUserAsync(User);
@@ -240,21 +276,41 @@ namespace RecTeam.Controllers
                     .ThenInclude(r => r.AppUser)
                         .ThenInclude(u => u.Messages)
                 .FirstOrDefault(t => t.Id == id);
+            ViewBag.ChatData = JsonConvert.SerializeObject(new
+            {
+                teamId = ViewBag.Team.Id,
+                teamName = ViewBag.Team.Name,
+                playerId = ViewBag.User.Id,
+                playerName = ViewBag.User.Name
+            });
+            Debug.WriteLine("test");
             return View();
         }
 
-        public IActionResult GetMessages(int id)
+        #endregion
+
+        #region GetJsonMessages
+
+        public IActionResult GetJsonMessages(int id)
         {
-            
             Team team = _db.Teams
-                .Include(t => t.Messages)
+                //.Include(t => t.Messages)
+                //.ThenInclude(t => t.AppUser)
                 .Include(t => t.Roster)
                     .ThenInclude(r => r.AppUser)
                         .ThenInclude(u => u.Messages)
                 .FirstOrDefault(t => t.Id == id);
-            team.Messages = team.Messages.OrderByDescending(m => m.PostDateTime).ToList();
-            return View(team);
+            List<ChatMessage> messages = team.Messages.OrderByDescending(m => m.PostDateTime).ToList();
+            return Json(JsonConvert.SerializeObject(messages, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
         }
+
+        #endregion
+
+        #region PostMessage
 
         [HttpPost]
         public async Task<IActionResult> PostMessage(int id, string message)
@@ -280,15 +336,25 @@ namespace RecTeam.Controllers
             return View("GetMessages", team);
         }
 
+        #endregion
+
+        #region Admin
+
         public IActionResult Admin(int id)
         {
             Team team = _db.Teams.FirstOrDefault(t => t.Id == id);
             return View(team);
         }
 
+        #endregion
+
+        #region NotAMember
+
         public IActionResult NotAMember()
         {
             return View();
         }
+
+        #endregion
     }
 }
