@@ -23,22 +23,22 @@
     <p>@User.Identity.Name is signed in.</p>
     <div class="row">
         <div class="col s12 m6">
-            <div class="card hoverable">
-                <a asp-controller="Teams" asp-action="Create">
+            <a asp-controller="Teams" asp-action="Create">
+                <div class="card hoverable">
                     <div class="card-content">
                         <h3 class="center">Create a new Team</h3>
                     </div>
-                </a>
-            </div>
+                </div>
+            </a>
         </div>
         <div class="col s12 m6">
-            <div class="card hoverable">
-                <a asp-controller="Account" asp-action="Index">
+            <a asp-controller="Account" asp-action="Index">
+                <div class="card hoverable">
                     <div class="card-content">
                         <h3 class="center">View your account details and team list</h3>
                     </div>
-                </a>
-            </div>
+                </div>
+            </a>
         </div>
     </div>
 }
@@ -47,18 +47,26 @@ else
     <h2>You aren't signed in.</h2>
     <div class="row">
         <div class="col s12 m6">
-            <div class="card hoverable">
-                <div class="card-content">
-                    <h3><a asp-controller="Account" asp-action="Login">Login</a></h3>
+            <a asp-controller="Account" asp-action="Login">
+                <div class="card hoverable">
+                    <div class="card-content">
+                        <h3>
+                            Login
+                        </h3>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col s12 m6">
-            <div class="card hoverable">
-                <div class="card-content">
-                    <h3><a asp-controller="Account" asp-action="Register">Register for a new account</a></h3>
+            <a asp-controller="Account" asp-action="Register">
+                <div class="card hoverable">
+                    <div class="card-content">
+                        <h3>
+                            Register for a new account
+                        </h3>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 }
