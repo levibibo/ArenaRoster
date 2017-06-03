@@ -5,22 +5,6 @@
 @using RecTeam.Models
 @model ApplicationUser
 
-<script>
-    $(function () {
-        $.ajax({
-            type: 'GET',
-            url: '@Url.Action("GetTeams")',
-            success: function (result) {
-                $("#user-teams").html(result);
-            },
-            error: function (result) {
-                $("#user-teams").html("We ran into a problem getting your teams.  Please try again later.")
-                console.log(result);
-            }
-        })
-    })
-</script>
-
 @if (User.Identity.IsAuthenticated)
 {
     <div class="row">
@@ -85,3 +69,4 @@ else
     <p>@Html.ActionLink("Register", "Register")</p>
     <p>@Html.ActionLink("Log in", "Login")</p>
 }
+<script src="~/js/Account/index.js" type="text/javascript"></script>
