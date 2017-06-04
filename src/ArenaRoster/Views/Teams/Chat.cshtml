@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <div class="row" v-for="message in readMessages">
+        <div class="row" v-for="message of readMessages">
             <div class="col s12 message">
                 <div class="outgoing-message" v-if="message.AppUser.Id === playerId">
                     <div class="blue lighten-2 right chat-message">
@@ -70,7 +70,7 @@
 
         <p v-show="unreadMessages.length > 0"><em>New Messages:</em></p>
 
-        <div class="row" v-for="message in unreadMessages">
+        <div class="row" v-for="message of unreadMessages">
             <div class="col s12 message">
                 <div class="outgoing-message" v-if="message.AppUser.Id === playerId">
                     <div class="blue lighten-2 right chat-message">

@@ -28,13 +28,13 @@ namespace RecTeam
             services.AddEntityFramework()
                 .AddDbContext<RecTeamDbContext>(options =>
                     options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+            services.AddIdentity<ApplicationUser, IdentityRole<int>>(options => {
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
             })
-                .AddEntityFrameworkStores<RecTeamDbContext>()
+                .AddEntityFrameworkStores<RecTeamDbContext, int>()
                 .AddDefaultTokenProviders();
         }
 

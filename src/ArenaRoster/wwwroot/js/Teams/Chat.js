@@ -25,18 +25,16 @@
                 url: "/Teams/GetMessages/" + self.teamId,
                 success: function (response) {
                     self.messagesReceived = true;
-                    if (response !== undefined && response !== "[]") {
+                    if (response !== undefined && response !== "{}") {
                         var jsonData = JSON.parse(response);
-                        jsonData.forEach(function (message) {
-                            var hasBeenRead = false;
-                            self.readMessages.forEach(function (readMessage) {
-                                if (readMessage.Id === message.Id) {
-                                    hasBeenRead = true;
-                                }
-                            })
-
-                            if (!hasBeenRead) self.unreadMessages.push(message);
-                        })
+                        if (jsonData.readMessages) {
+                            $("message-window").scrollTop = $("message-window").scrollHeight;
+                            self.readMessages = self.sortMessages(jsonData.readMessages);
+                        }
+                        if (jsonData.unreadMessages) {
+                            $("message-window").scrollTop = $("message-window").scrollHeight;
+                            self.unreadMessages = self.sortMessages(jsonData.unreadMessages);
+                        }
                     } else {
                         $("#message-window").text("There are no chat messages for this team.\nStart a conversation!");
                     }
@@ -66,7 +64,7 @@
                     data: { message: self.messageToSend },
                     datatype: 'json',
                     success: function (response) {
-                        $("#message").val("");
+                        self.messageToSend = "";
                         self.CheckMessages();
                     },
                     error: function (response) {
@@ -77,20 +75,30 @@
             }
         },
 
-        sortMessages: function () {
-
+        sortMessages: function (messageArray) {
+            tempArray = messageArray.sort(function compare(a, b) {
+                if (a.PostDateTime < b.PostDateTime) {
+                    return -1;
+                }
+                if (a.PostDateTime > b.PostDateTime) {
+                    return 1;
+                }
+                return 0;
+            });
+            return tempArray;
         }
     },
 
     created: function () {
         var team = $("#message-screen").attr("data-content");
-        if (team != undefined && team != "") {
+        if (team !== undefined && team !== "") {
             var jsonData = JSON.parse(team);
             this.teamId = jsonData.teamId;
             this.teamName = jsonData.teamName;
             this.playerId = jsonData.playerId;
             this.playerName = jsonData.playerName;
             this.CheckMessages();
+            $("message-window").scrollTop = $("message-window").scrollHeight;
         }
     }
 })

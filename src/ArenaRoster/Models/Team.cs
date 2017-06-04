@@ -16,6 +16,7 @@ namespace RecTeam.Models
         public virtual List<PlayerTeam> Roster { get; set; }
         public virtual List<Game> Schedule { get; set; }
         public virtual List<ChatMessage> Messages { get; set; }
+        public virtual List<UnreadMessage> UnreadMessages { get; set; }
         public string Name { get; set; }
     }
 }

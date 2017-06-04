@@ -285,24 +285,41 @@ namespace RecTeam.Controllers
 
         #region GetMessages
 
-        public IActionResult GetMessages(int id)
+        public async Task<IActionResult> GetMessages(int id)
         {
+            ViewBag.User = await _userManager.GetUserAsync(User);
             Team team = _db.Teams
                 .Include(t => t.Roster)
                     .ThenInclude(r => r.AppUser)
                         .ThenInclude(u => u.Messages)
+                .Include(t => t.Roster)
+                    .ThenInclude(r => r.AppUser)
+                        .ThenInclude(u => u.UnreadMessages)
                 .FirstOrDefault(t => t.Id == id);
+            List<ChatMessage> readMessages = null;
+            List<UnreadMessage> unreadMessages = null;
             if (team.Messages != null)
             {
-                List<ChatMessage> messages = team.Messages.OrderBy(m => m.PostDateTime).ToList();
-                return Json(JsonConvert.SerializeObject(messages, Formatting.Indented,
-                    new JsonSerializerSettings
-                    {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                    }));
+                readMessages = team.Messages.ToList();
             }
-
-            return Json(JsonConvert.SerializeObject(new List<ChatMessage>() { }));
+            if (team.UnreadMessages != null)
+            {
+                unreadMessages = team.UnreadMessages.ToList();
+                foreach (UnreadMessage message in unreadMessages)
+                {
+                    if (message.AppUser.Id == ViewBag.User.Id)
+                    {
+                        _db.UnreadMessages.Remove(message);
+                    }
+                }
+                _db.SaveChanges();
+            }
+            Dictionary<string, object> messages = new Dictionary<string, object> { { "readMessages", readMessages }, { "unreadMessages", unreadMessages } };
+            return Json(JsonConvert.SerializeObject(messages, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
         }
 
         #endregion

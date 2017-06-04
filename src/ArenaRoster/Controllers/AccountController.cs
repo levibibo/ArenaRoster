@@ -33,6 +33,8 @@ namespace RecTeam.Controllers
             return View(user);
         }
 
+        #region GetTeams
+
         public async Task<IActionResult> GetTeams()
         {
             List<Team> teams = new List<Team> { };
@@ -62,6 +64,10 @@ namespace RecTeam.Controllers
             }
             return View(teams);
         }
+
+        #endregion
+
+        #region Register
 
         public IActionResult Register()
         {
@@ -97,6 +103,10 @@ namespace RecTeam.Controllers
             }
         }
 
+        #endregion
+
+        #region Login
+
         public IActionResult Login()
         {
             ViewBag.LoginError = false;
@@ -117,6 +127,10 @@ namespace RecTeam.Controllers
                 return View();
             }
         }
+
+        #endregion
+
+        #region Edit
 
         [Authorize]
         public async Task<IActionResult> Edit()
@@ -149,6 +163,10 @@ namespace RecTeam.Controllers
             return RedirectToAction("Index");
         }
 
+        #endregion
+
+        #region ChangePassword
+
         [Authorize]
         public IActionResult ChangePassword()
         {
@@ -170,6 +188,10 @@ namespace RecTeam.Controllers
             }
         }
 
+        #endregion
+
+        #region LogOff
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> LogOff()
@@ -177,5 +199,7 @@ namespace RecTeam.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index");
         }
+
+        #endregion
     }
 }

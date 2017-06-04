@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace RecTeam.Models
 {
-    public class RecTeamDbContext : IdentityDbContext<ApplicationUser>
+    public class RecTeamDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
     {
         public RecTeamDbContext(DbContextOptions options) : base(options)
         {
@@ -18,7 +18,8 @@ namespace RecTeam.Models
         public DbSet<Game> Games { get; set; }
         public DbSet<PlayerTeam> PlayersTeams { get; set; }
         public DbSet<Availability> Availabilities { get; set; }
-        public DbSet<ChatMessage> Messagese { get; set; }
+        public DbSet<ChatMessage> Messages { get; set; }
+        public DbSet<UnreadMessage> UnreadMessages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {

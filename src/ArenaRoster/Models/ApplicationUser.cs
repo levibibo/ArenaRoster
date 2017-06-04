@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace RecTeam.Models
 {
 
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<int>
     {
         //public int PositionId { get; set; }
         public string Position { get; set; }
         public virtual List<Game> Games { get; set; }
         public virtual List<PlayerTeam> Teams { get; set; }
         public virtual List<ChatMessage> Messages { get; set; }
+        public virtual List<UnreadMessage> UnreadMessages { get; set; }
         public string Name { get; set; }
         public byte[] Image { get; set; }
 
