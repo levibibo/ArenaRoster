@@ -270,12 +270,7 @@ namespace RecTeam.Controllers
         public async Task<IActionResult> Chat(int id)
         {
             ViewBag.User = await _userManager.GetUserAsync(User);
-            ViewBag.Team = _db.Teams
-                .Include(t => t.Messages)
-                .Include(t => t.Roster)
-                    .ThenInclude(r => r.AppUser)
-                        .ThenInclude(u => u.Messages)
-                .FirstOrDefault(t => t.Id == id);
+            ViewBag.Team = _db.Teams.FirstOrDefault(t => t.Id == id);
             ViewBag.ChatData = JsonConvert.SerializeObject(new
             {
                 teamId = ViewBag.Team.Id,
@@ -283,29 +278,31 @@ namespace RecTeam.Controllers
                 playerId = ViewBag.User.Id,
                 playerName = ViewBag.User.Name
             });
-            Debug.WriteLine("test");
             return View();
         }
 
         #endregion
 
-        #region GetJsonMessages
+        #region GetMessages
 
-        public IActionResult GetJsonMessages(int id)
+        public IActionResult GetMessages(int id)
         {
             Team team = _db.Teams
-                //.Include(t => t.Messages)
-                //.ThenInclude(t => t.AppUser)
                 .Include(t => t.Roster)
                     .ThenInclude(r => r.AppUser)
                         .ThenInclude(u => u.Messages)
                 .FirstOrDefault(t => t.Id == id);
-            List<ChatMessage> messages = team.Messages.OrderByDescending(m => m.PostDateTime).ToList();
-            return Json(JsonConvert.SerializeObject(messages, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                }));
+            if (team.Messages != null)
+            {
+                List<ChatMessage> messages = team.Messages.OrderBy(m => m.PostDateTime).ToList();
+                return Json(JsonConvert.SerializeObject(messages, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
+            }
+
+            return Json(JsonConvert.SerializeObject(new List<ChatMessage>() { }));
         }
 
         #endregion
@@ -324,7 +321,7 @@ namespace RecTeam.Controllers
                 Team = team,
                 PostDateTime = DateTime.Now
             };
-            _db.Messagese.Add(newMessage);
+            _db.Messages.Add(newMessage);
             _db.SaveChanges();
             team = _db.Teams
                 .Include(t => t.Messages)
@@ -333,7 +330,20 @@ namespace RecTeam.Controllers
                         .ThenInclude(u => u.Messages)
                 .FirstOrDefault(t => t.Id == id);
             team.Messages = team.Messages.OrderByDescending(m => m.PostDateTime).ToList();
-            return View("GetMessages", team);
+            foreach (PlayerTeam player in team.Roster)
+            {
+                if (player.AppUser.Id != user.Id)
+                {
+                    _db.UnreadMessages.Add(new UnreadMessage()
+                    {
+                        Message = newMessage,
+                        Team = team,
+                        AppUser = player.AppUser
+                    });
+                }
+            }
+            _db.SaveChanges();
+            return Json(JsonConvert.SerializeObject(true));
         }
 
         #endregion

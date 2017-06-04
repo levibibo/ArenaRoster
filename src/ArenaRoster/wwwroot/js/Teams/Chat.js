@@ -9,6 +9,8 @@
         readMessages: [],
         unreadMessages: [],
         messageDelay: 30000,
+        messagesReceived: false,
+        messageToSend: ""
     },
 
     methods: {
@@ -18,12 +20,12 @@
                 self.readMessages.push(message);
             })
             self.unreadMessages.length = 0;
-            console.log("checked");
             $.ajax({
                 type: "GET",
-                url: "/Teams/GetJsonMessages/" + self.teamId,
+                url: "/Teams/GetMessages/" + self.teamId,
                 success: function (response) {
-                    if (response != undefined && response != "") {
+                    self.messagesReceived = true;
+                    if (response !== undefined && response !== "[]") {
                         var jsonData = JSON.parse(response);
                         jsonData.forEach(function (message) {
                             var hasBeenRead = false;
@@ -36,13 +38,13 @@
                             if (!hasBeenRead) self.unreadMessages.push(message);
                         })
                     } else {
-                        $("#message-window").text("No Chat Messages.\nStart a conversation!");
+                        $("#message-window").text("There are no chat messages for this team.\nStart a conversation!");
                     }
 
                     //Reset message delay if new messages have come in
                     if (self.unreadMessages.length > 0) {
                         self.messageDelay = 30000;
-                    } else {
+                    } else if (self.messageDelay < 300000) {
                         self.messageDelay += 30000;
                     }
 
@@ -53,14 +55,37 @@
                     $("#message-window").text("Error retrieving messages.");
                 }
             })
+        },
+
+        sendMessage: function () {
+            var self = this;
+            if (self.messageToSend) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Teams/PostMessage/' + self.teamId,
+                    data: { message: self.messageToSend },
+                    datatype: 'json',
+                    success: function (response) {
+                        $("#message").val("");
+                        self.CheckMessages();
+                    },
+                    error: function (response) {
+                        $("#message-window").text("Unable to send message.");
+                        setTimeout(self.CheckMessages, self.messageDelay);
+                    }
+                })
+            }
+        },
+
+        sortMessages: function () {
+
         }
     },
 
     created: function () {
-        var team = $("#message-window").attr("data-content");
+        var team = $("#message-screen").attr("data-content");
         if (team != undefined && team != "") {
             var jsonData = JSON.parse(team);
-            console.log(jsonData);
             this.teamId = jsonData.teamId;
             this.teamName = jsonData.teamName;
             this.playerId = jsonData.playerId;

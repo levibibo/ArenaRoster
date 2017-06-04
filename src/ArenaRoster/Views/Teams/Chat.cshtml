@@ -35,7 +35,7 @@
 
 <div id="message-screen" data-content="@ViewBag.ChatData">
     <div id="message-window">
-        <p v-if="readMessages.length === 0 && unreadMessages.length === 0">Getting messages for @ViewBag.Team.Name...</p>
+        <p v-if="!messagesReceived">Getting messages for @ViewBag.Team.Name...</p>
         <div class="spinner-layer spinner-green" v-if="readMessages.length === 0 && unreadMessages.length === 0">
             <div class="circle-clipper left">
                 <div class="circle"></div>
@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <p v-show="unreadMessages"><em>New Messages:</em></p>
+        <p v-show="unreadMessages.length > 0"><em>New Messages:</em></p>
 
         <div class="row" v-for="message in unreadMessages">
             <div class="col s12 message">
@@ -94,8 +94,8 @@
     </div>
     <form class="row" id="message-form">
         <div class="col s12">
-            <input type="text" id="message" name="message" placeholder="Enter Message" />
-            <button type="submit" class="btn blue lighten-2">Send</button>
+            <input type="text" id="message" name="message" v-model="messageToSend" placeholder="Enter Message" />
+            <button type="submit" class="btn blue lighten-2" v-on:click.prevent="sendMessage">Send</button>
         </div>
     </form>
 </div>

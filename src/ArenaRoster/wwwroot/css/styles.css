@@ -142,7 +142,7 @@ a {
     height: 400px;
     width: 100%;
     border: 1px solid darkgreen;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
