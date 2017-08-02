@@ -1,12 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C2E6924B-6E63-4499-8737-3783DEE6D745}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9E0AF12D-FB7E-4F4A-A3B5-2F2B081FDD22}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArenaRoster", "src\ArenaRoster\ArenaRoster.csproj", "{21D427C5-2030-453C-9AF6-D78EB10D3343}"
 EndProject
 Global
@@ -22,8 +18,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{21D427C5-2030-453C-9AF6-D78EB10D3343} = {C2E6924B-6E63-4499-8737-3783DEE6D745}
 	EndGlobalSection
 EndGlobal
